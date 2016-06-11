@@ -1,0 +1,11 @@
+{
+  "generator-gulp-es6-module": {
+    "answers": {
+      "projectName": "engagement",
+      "projectDescription": "engagement metrics",
+      "githubUser": "nicksoto",
+      "useMinification": true,
+      "destinationDir": "dist"
+    }
+  }
+}
