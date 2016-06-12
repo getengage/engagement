@@ -2,14 +2,23 @@ import assert from 'assert';
 import Scroll from '../src/index';
 
 describe('Scroll', () => {
+  var scroll;
 
-  it('uses electron test renderer', () => {
-    assert.equal(typeof document, 'object');
+  before(function() {
+    scroll = new Scroll();
   });
 
   it('is a valid class', () => {
-    const instance = new Scroll();
-    assert.equal(instance.scrollPos.length, 0);
+    assert(scroll instanceof Scroll);
+  });
+
+  it('has a scrollPos', () => {
+    assert.deepEqual(scroll.scrollPos.length, 0);
+  });
+
+  it('can set new scroll position', () => {
+    scroll.setScrollPos();
+    assert.deepEqual(scroll.scrollPos, [0, 0]);
   });
 
 });
