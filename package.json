@@ -43,5 +43,8 @@
     "gulp-uglify": "^1.5.3",
     "gulp-watch": "^4.3.6",
     "mocha": "^2.5.3"
+  },
+  "dependencies": {
+    "operative": "^0.4.4"
   }
 }

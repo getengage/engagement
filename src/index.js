@@ -1,2 +1,4 @@
 import Scroll from './tracking';
-export default Scroll;
+import Manager from './metrics';
+
+module.exports = { Scroll, Manager };

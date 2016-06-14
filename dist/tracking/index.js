@@ -6,9 +6,8 @@ Object.defineProperty(exports, "__esModule", {
 
 var _Scroll = require('./Scroll');
 
-Object.defineProperty(exports, 'Scroll', {
-  enumerable: true,
-  get: function get() {
-    return _Scroll.Scroll;
-  }
-});
+var _Scroll2 = _interopRequireDefault(_Scroll);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = _Scroll2.default;
