@@ -1,22 +1,20 @@
 import fs from 'fs';
 import del from 'del';
 import gulp from 'gulp';
-import babel from 'gulp-babel';
-import uglify from 'gulp-uglify';
-import sourcemaps from 'gulp-sourcemaps';
 import gIf from 'gulp-if';
 import watch from 'gulp-watch';
 import sequence from 'gulp-sequence';
 import plumber from 'gulp-plumber';
-import rename from 'gulp-rename';
 import packageJSON from './package.json';
+
+// webpack
+import webpack from 'webpack-stream';
+import webpackConfig from './webpack.config.js';
 
 // Configurations.
 const sourceDirectory = packageJSON.directories.src;
 const destinationDirectory = packageJSON.directories.compiled;
 const glob = `${sourceDirectory}/**/*.js`;
-const useMinification = (packageJSON.config.minify === 'true');
-const babelConfig = JSON.parse(fs.readFileSync(`${__dirname}/.babelrc`, 'utf8'));
 
 // Cleans the distribution directory,
 // watches for file changes and compiles the scripts.
@@ -33,13 +31,8 @@ gulp.task('clean', (callback) => {
 gulp.task('compile', () => {
   gulp.src(glob)
     .pipe(plumber())
-    .pipe(gIf(useMinification, sourcemaps.init()))
-    .pipe(babel(babelConfig))
+    .pipe(webpack())
     .pipe(gulp.dest(destinationDirectory))
-    .pipe(gIf(useMinification, rename({ suffix: '.min' })))
-    .pipe(gIf(useMinification, uglify({ drop_debugger: true })))
-    .pipe(gIf(useMinification, sourcemaps.write('.')))
-    .pipe(gIf(useMinification, gulp.dest(destinationDirectory)));
 });
 
 // Watches for changes.
