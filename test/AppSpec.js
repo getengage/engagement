@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import assert from 'assert';
 
 describe('App', () => {
@@ -6,5 +7,6 @@ describe('App', () => {
     assert.equal(typeof document, 'object');
     assert.equal(typeof window, 'object');
   });
+
 
 });

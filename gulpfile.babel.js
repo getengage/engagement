@@ -31,7 +31,7 @@ gulp.task('clean', (callback) => {
 gulp.task('compile', () => {
   gulp.src(glob)
     .pipe(plumber())
-    .pipe(webpack())
+    .pipe(webpack(webpackConfig))
     .pipe(gulp.dest(destinationDirectory))
 });
 
