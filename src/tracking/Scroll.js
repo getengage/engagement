@@ -1,38 +1,33 @@
 class Scroll {
 
   constructor() {
-    this.scrollPos = [];
-  }
-
-  getScrollPos() {
-    let position = [0, 0];
-
     if (typeof window.pageYOffset !== 'undefined') {
-      position = [
+      this.position = [
         window.pageXOffset,
         window.pageYOffset,
       ];
     } else if (typeof document.documentElement.scrollTop !== 'undefined' &&
     document.documentElement.scrollTop > 0) {
-      position = [
+      this.position = [
         document.documentElement.scrollLeft,
         document.documentElement.scrollTop,
       ];
     } else if (typeof document.body.scrollTop !== 'undefined') {
-      position = [
+      this.position = [
         document.body.scrollLeft,
         document.body.scrollTop,
       ];
+    } else {
+      throw new Error('Not Supported');
     }
-    return position;
   }
 
   scrollPos() {
     return this.scrollPos;
   }
 
-  setScrollPos() {
-    this.scrollPos = this.getScrollPos();
+  update() {
+    this.scrollPos = this.position();
   }
 
 }

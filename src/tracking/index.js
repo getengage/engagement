@@ -1,2 +1,4 @@
 import Scroll from './Scroll';
-export default Scroll;
+import Timer from './Timer';
+
+module.exports = { Scroll, Timer };

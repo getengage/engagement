@@ -1,10 +1,13 @@
+import { Manager } from '../metrics';
+
 let instance = null;
 
 class _engage {
 
-  constructor() {
+  constructor(options) {
     if (!instance) { instance = this; }
-    return instance;
+    this.options = options;
+    this.manager = new Manager();
   }
 
   static run(options) {

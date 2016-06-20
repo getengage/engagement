@@ -1,5 +1,5 @@
 import assert from 'assert';
-import { Scroll } from '../src/index';
+import { Scroll } from '../tracking/index';
 
 describe('Scroll', () => {
   var scroll;
