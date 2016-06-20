@@ -1,7 +1,10 @@
+let instance = null;
+
 class _engage {
 
-  static get options() {
-    return this.options;
+  constructor() {
+    if (!instance) { instance = this; }
+    return instance;
   }
 
   static run(options) {
@@ -11,9 +14,8 @@ class _engage {
     if (!options.element) {
       throw new Error('No element option passed');
     }
-    return true;
+    return new _engage(options);
   }
-
 }
 
 export default _engage;
