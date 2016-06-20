@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import assert from 'assert';
-import { _engage } from '../src/index';
+import _engage from '../src/index';
 
 describe('App', () => {
 
@@ -16,7 +16,7 @@ describe('App', () => {
     });
 
     it('is callable w/ optional opts', () => {
-      // assert(_engage.run({element: 'body_copy'}), true);
+      assert(_engage.run({element: 'body_copy'}), true);
     });
 
   });
