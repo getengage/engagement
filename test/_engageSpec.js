@@ -1,5 +1,5 @@
 import assert from "assert";
-import { _engage } from '../src/index';
+import _engage from '../src/index';
 
   describe('_engage', () => {
 

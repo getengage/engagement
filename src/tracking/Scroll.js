@@ -2,32 +2,30 @@ class Scroll {
 
   constructor() {
     if (typeof window.pageYOffset !== 'undefined') {
-      this.position = [
-        window.pageXOffset,
-        window.pageYOffset,
-      ];
+      this.scrollCalc = function scrollCal() {
+        return [window.pageXOffset, window.pageYOffset];
+      };
     } else if (typeof document.documentElement.scrollTop !== 'undefined' &&
     document.documentElement.scrollTop > 0) {
-      this.position = [
-        document.documentElement.scrollLeft,
-        document.documentElement.scrollTop,
-      ];
+      this.scrollCalc = function scrollCalc() {
+        return [document.documentElement.scrollLeft, document.documentElement.scrollTop];
+      };
     } else if (typeof document.body.scrollTop !== 'undefined') {
-      this.position = [
-        document.body.scrollLeft,
-        document.body.scrollTop,
-      ];
+      this.scrollCalc = function scrollCalc() {
+        return [document.body.scrollLeft, document.body.scrollTop];
+      };
     } else {
       throw new Error('Not Supported');
     }
+    this.update();
   }
 
-  scrollPos() {
-    return this.scrollPos;
+  position() {
+    return this.position;
   }
 
   update() {
-    this.scrollPos = this.position();
+    this.position = this.scrollCalc();
   }
 
 }
