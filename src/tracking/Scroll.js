@@ -1,6 +1,11 @@
 class Scroll {
 
   constructor() {
+    this.created_at = Date.now();
+    this.seriesXStart = performance.now();
+    this.scrollSeriesX = [];
+    this.scrollSeriesY = [];
+
     if (typeof window.pageYOffset !== 'undefined') {
       this.scrollCalc = function scrollCal() {
         return [window.pageXOffset, window.pageYOffset];
@@ -26,6 +31,8 @@ class Scroll {
 
   update() {
     this.position = this.scrollCalc();
+    this.scrollSeriesY.push(this.position);
+    this.scrollSeriesX.push(Date.now());
   }
 
 }

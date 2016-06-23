@@ -9,12 +9,8 @@ class Manager {
   }
 
   startTracking() {
-    setInterval(function updater() {
-      this.scroll.update();
-      this.timer.update();
-    }, 250);
+    window.addEventListener('scroll', this.scroll.update.bind(this.scroll), false);
   }
-
 }
 
 export default Manager;

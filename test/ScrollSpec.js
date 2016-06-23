@@ -25,7 +25,6 @@ describe('Scroll', () => {
     });
 
     it('can set new position', () => {
-
       assert.deepEqual(scroll.position, [0, 200]);
     });
 
