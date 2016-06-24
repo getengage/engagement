@@ -1,4 +1,5 @@
 import { Scroll, Timer } from '../tracking';
+import { Adapters } from '../utils/';
 
 class Manager {
 
@@ -10,6 +11,7 @@ class Manager {
 
   startTracking() {
     window.addEventListener('scroll', this.scroll.update.bind(this.scroll), false);
+    document.addEventListener(Adapters.vchange, this.timer.update.bind(this.timer), false);
   }
 }
 

@@ -1,7 +1,7 @@
 class Timer {
 
-  update() {
-
+  constructor() {
+    this.created_at = Date.now();
   }
 
 }
