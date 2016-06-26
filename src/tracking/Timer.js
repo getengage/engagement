@@ -9,7 +9,7 @@ class Timer {
   }
 
   update() {
-    this.timerSeriesX.push(performance.now());
+    this.timerSeriesX.push(window.performance.now());
     this.timerSeriesY.push(Adapters.vhidden);
   }
 

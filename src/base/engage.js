@@ -2,12 +2,19 @@ import { Manager } from '../metrics';
 
 let instance = null;
 
-class _engage {
+class engage {
 
   constructor(options) {
     if (!instance) { instance = this; }
     this.options = options;
     this.manager = new Manager();
+  }
+
+  static get instance() {
+    if (!instance) {
+      throw new Error('Engage is not running');
+    }
+    return instance;
   }
 
   static run(options) {
@@ -17,8 +24,8 @@ class _engage {
     if (!options.element) {
       throw new Error('No element option passed');
     }
-    return new _engage(options);
+    return new engage(options); // eslint-disable-line new-cap
   }
 }
 
-export default _engage;
+export default engage;

@@ -2,7 +2,7 @@ class Scroll {
 
   constructor() {
     this.created_at = Date.now();
-    this.seriesXStart = performance.now();
+    this.seriesXStart = window.performance.now();
     this.scrollSeriesX = [];
     this.scrollSeriesY = [];
 
@@ -32,7 +32,7 @@ class Scroll {
   update() {
     this.position = this.scrollCalc();
     this.scrollSeriesY.push(this.position);
-    this.scrollSeriesX.push(performance.now());
+    this.scrollSeriesX.push(window.performance.now());
   }
 
 }

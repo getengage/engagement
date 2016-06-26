@@ -1,6 +1,5 @@
-import $ from 'jquery';
 import assert from 'assert';
-import { Scroll } from '../src/tracking/index';
+import { Scroll } from '../src/tracking';
 
 describe('Scroll', () => {
   var scroll;
@@ -15,19 +14,6 @@ describe('Scroll', () => {
 
   it('has an initial position', () => {
     assert.deepEqual(scroll.position, [0, 0]);
-  });
-
-  describe('user moves to 200 Y pos', () => {
-
-    before(() => {
-      $(document).scrollTop(200);
-      scroll.update();
-    });
-
-    it('can set new position', () => {
-      assert.deepEqual(scroll.position, [0, 200]);
-    });
-
   });
 
 });

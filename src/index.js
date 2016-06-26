@@ -1,3 +1,3 @@
-import _engage from './base';
+import engage from './base';
 
-export default _engage;
+module.exports = engage;
