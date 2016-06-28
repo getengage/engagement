@@ -55,14 +55,16 @@ describe('engage', () => {
   }));
 
   it('tracks user scrolls', co.wrap(function*() {
-    var result = yield nightmare
+    var setup = yield nightmare
       .goto('http://google.com')
       .viewport(600, 600)
       .wait('body')
       .inject('js', 'dist/engage.min.js')
       .evaluate(() => {
         window.engage.run({element: 'body_copy'});
-      })
+      });
+
+    var result = yield nightmare
       .scrollTo(0, 100)
       .wait(1000)
       .evaluate(() => {
