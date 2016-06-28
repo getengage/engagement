@@ -1,3 +1,4 @@
 --require test/utils/dom.js
---timeout 15000
+--timeout 30000
 --full-trace
+--inline-diffs

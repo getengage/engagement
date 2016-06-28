@@ -1,7 +1,7 @@
 import assert from "assert";
-import engage from '../src/index';
-import Nightmare from 'nightmare';
 import co from 'co';
+import Nightmare from 'nightmare';
+import engage from '../src/index';
 
 describe('engage', () => {
   var nightmare;
@@ -33,28 +33,44 @@ describe('engage', () => {
       assert.doesNotThrow(function() {engage.instance });
       assert(engage.instance instanceof engage);
     });
-
   });
 
-  beforeEach(function() {
+  beforeEach(() => {
     nightmare = new Nightmare();
   });
 
-  afterEach(function*() {
-    yield nightmare.end();
-  });
-
-  it('registers engage on page', function(done) {
-    nightmare
-      .goto('http://localhost:3000/users/sign_in')
+  it('registers engage on page', co.wrap(function*() {
+    var result = yield nightmare
+      .goto('http://google.com')
       .wait('body')
       .inject('js', 'dist/engage.min.js')
-      .evaluate(function() {
-        return window.engage;
-      })
-      .end()
-      .then(function(el) {
-        done();
+      .evaluate(() => {
+        return window.engage.run({element: 'body_copy'});
       });
-  });
+
+    assert(result.manager);
+    assert(result.options);
+
+    yield nightmare.end();
+  }));
+
+  it('tracks user scrolls', co.wrap(function*() {
+    var result = yield nightmare
+      .goto('http://google.com')
+      .viewport(600, 600)
+      .wait('body')
+      .inject('js', 'dist/engage.min.js')
+      .evaluate(() => {
+        window.engage.run({element: 'body_copy'});
+      })
+      .scrollTo(0, 100)
+      .wait(1000)
+      .evaluate(() => {
+        return window.engage.instance.manager.scroll.position;
+      });
+
+    assert.deepEqual(result, [100,0]);
+    yield nightmare.end();
+  }));
+
 });
