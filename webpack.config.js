@@ -8,7 +8,8 @@ module.exports = {
   },
   output: {
     path: __dirname + "/dist",
-    filename: "[name].js"
+    filename: "[name].js",
+    library: 'engage'
   },
   module: {
     loaders: [

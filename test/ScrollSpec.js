@@ -1,5 +1,5 @@
 import assert from 'assert';
-import { Scroll } from '../src/index';
+import { Scroll } from '../src/tracking';
 
 describe('Scroll', () => {
   var scroll;
@@ -12,13 +12,8 @@ describe('Scroll', () => {
     assert(scroll instanceof Scroll);
   });
 
-  it('has a scrollPos', () => {
-    assert.deepEqual(scroll.scrollPos.length, 0);
-  });
-
-  it('can set new scroll position', () => {
-    scroll.setScrollPos();
-    assert.deepEqual(scroll.scrollPos, [0, 0]);
+  it('has an initial position', () => {
+    assert.deepEqual(scroll.position, [0, 0]);
   });
 
 });

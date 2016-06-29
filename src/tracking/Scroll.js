@@ -1,38 +1,38 @@
 class Scroll {
 
   constructor() {
-    this.scrollPos = [];
-  }
-
-  getScrollPos() {
-    let position = [0, 0];
+    this.created_at = Date.now();
+    this.seriesXStart = window.performance.now();
+    this.scrollSeriesX = [];
+    this.scrollSeriesY = [];
 
     if (typeof window.pageYOffset !== 'undefined') {
-      position = [
-        window.pageXOffset,
-        window.pageYOffset,
-      ];
+      this.scrollCalc = function scrollCal() {
+        return [window.pageXOffset, window.pageYOffset];
+      };
     } else if (typeof document.documentElement.scrollTop !== 'undefined' &&
     document.documentElement.scrollTop > 0) {
-      position = [
-        document.documentElement.scrollLeft,
-        document.documentElement.scrollTop,
-      ];
+      this.scrollCalc = function scrollCalc() {
+        return [document.documentElement.scrollLeft, document.documentElement.scrollTop];
+      };
     } else if (typeof document.body.scrollTop !== 'undefined') {
-      position = [
-        document.body.scrollLeft,
-        document.body.scrollTop,
-      ];
+      this.scrollCalc = function scrollCalc() {
+        return [document.body.scrollLeft, document.body.scrollTop];
+      };
+    } else {
+      throw new Error('Not Supported');
     }
-    return position;
+    this.update();
   }
 
-  scrollPos() {
-    return this.scrollPos;
+  position() {
+    return this.position;
   }
 
-  setScrollPos() {
-    this.scrollPos = this.getScrollPos();
+  update() {
+    this.position = this.scrollCalc();
+    this.scrollSeriesY.push(this.position);
+    this.scrollSeriesX.push(window.performance.now());
   }
 
 }

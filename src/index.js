@@ -1,5 +1,4 @@
-import Scroll from './tracking';
-import Manager from './metrics';
-import _engage from './base';
+import engage from './base';
 
-module.exports = { Scroll, Manager, _engage };
+window.engage = engage;
+module.exports = engage;
