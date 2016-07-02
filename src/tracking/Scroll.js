@@ -1,7 +1,6 @@
 class Scroll {
 
   constructor() {
-    this.created_at = Date.now();
     this.seriesXStart = window.performance.now();
     this.scrollSeriesX = [];
     this.scrollSeriesY = [];
@@ -33,6 +32,13 @@ class Scroll {
     this.position = this.scrollCalc();
     this.scrollSeriesY.push(this.position);
     this.scrollSeriesX.push(window.performance.now());
+  }
+
+  toJSON() {
+    return {
+      x: JSON.stringify(this.scrollSeriesX),
+      y: JSON.stringify(this.scrollSeriesY),
+    };
   }
 
 }

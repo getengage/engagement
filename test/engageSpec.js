@@ -8,12 +8,20 @@ describe('engage', () => {
 
   describe('#run', () => {
 
-    it('is not callable without opts', () => {
+    it('is uncallable without opts', () => {
       assert.throws(engage.run, 'No options passed');
     });
 
-    it('is callable w/ optional opts', () => {
-      assert(engage.run({element: 'body_copy'}), false);
+    it('is uncallable without api key', () => {
+      assert.throws(function(){engage.run({element: 'body_copy'})}, 'No API Key passed');
+    });
+
+    it('is uncallable without target element', () => {
+      assert.throws(function(){engage.run({api_key: '1234'})}, 'No element option passed');
+    });
+
+    it('is callable w/ opts', () => {
+      assert(engage.run({element: 'body_copy', api_key: '1234'}), false);
     });
 
   });
@@ -29,7 +37,7 @@ describe('engage', () => {
     });
 
     it('returns instance if defined', () => {
-      engage.run({element: 'body_copy'});
+      engage.run({element: 'body_copy', api_key: '1234'});
       assert.doesNotThrow(function() {engage.instance });
       assert(engage.instance instanceof engage);
     });
@@ -45,7 +53,7 @@ describe('engage', () => {
       .wait('body')
       .inject('js', 'dist/engage.min.js')
       .evaluate(() => {
-        return window.engage.run({element: 'body_copy'});
+        return window.engage.run({element: 'body_copy', api_key: '1234'});
       });
 
     assert(result.manager);
@@ -61,7 +69,7 @@ describe('engage', () => {
       .wait('body')
       .inject('js', 'dist/engage.min.js')
       .evaluate(() => {
-        window.engage.run({element: 'body_copy'});
+        window.engage.run({element: 'body_copy', api_key: '1234'});
       });
 
     var result = yield nightmare

@@ -1,4 +1,4 @@
-import Utils from './Utils';
+import $$ from './Utils';
 import Adapters from './Adapters';
 
-module.exports = { Utils, Adapters };
+module.exports = { $$, Adapters };

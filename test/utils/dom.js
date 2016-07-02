@@ -13,6 +13,10 @@ win.performance = {
   }
 };
 
+win.navigator.sendBeacon = function() {
+
+};
+
 // set globals for mocha that make access to document and window feel
 // natural in the test environment
 global.document = doc;
