@@ -32,4 +32,4 @@ class Manager {
 
 }
 
-export default Manager;
+module.exports = Manager;

@@ -27,4 +27,4 @@ class Session {
 
 }
 
-export default Session;
+module.exports = Session;

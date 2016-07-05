@@ -1,3 +1,3 @@
 import engage from './engage';
 
-export default engage;
+module.exports = engage;

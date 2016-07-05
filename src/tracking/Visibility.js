@@ -12,4 +12,4 @@ class Visibility {
 
 }
 
-export default Visibility;
+module.exports = Visibility;
