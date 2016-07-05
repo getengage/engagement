@@ -24,7 +24,7 @@ class Manager {
       session_id: this.session.session_id,
       referrer: this.session.referrer,
       x_pos: this.scroll.xPos,
-      y_pos: this.scrol.yPos,
+      y_pos: this.scroll.yPos,
       is_visible: this.visibility.is_visible,
       source_url: this.session.source_url,
     };
