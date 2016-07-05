@@ -15,4 +15,4 @@ if (typeof document.hidden !== 'undefined') { // Opera 12.10 and Firefox 18 and 
   vchange = 'webkitvisibilitychange';
 }
 
-export default { vhidden, vchange };
+module.exports = { vhidden, vchange };

@@ -6,4 +6,4 @@ class $$ {
 
 }
 
-export default $$;
+module.exports = $$;
