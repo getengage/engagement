@@ -1,10 +1,6 @@
 class Scroll {
 
   constructor() {
-    this.seriesXStart = window.performance.now();
-    this.scrollSeriesX = [];
-    this.scrollSeriesY = [];
-
     if (typeof window.pageYOffset !== 'undefined') {
       this.scrollCalc = function scrollCal() {
         return [window.pageXOffset, window.pageYOffset];
@@ -24,21 +20,8 @@ class Scroll {
     this.update();
   }
 
-  position() {
-    return this.position;
-  }
-
   update() {
-    this.position = this.scrollCalc();
-    this.scrollSeriesY.push(this.position);
-    this.scrollSeriesX.push(window.performance.now());
-  }
-
-  toJSON() {
-    return {
-      x: JSON.stringify(this.scrollSeriesX),
-      y: JSON.stringify(this.scrollSeriesY),
-    };
+    [this.xPos, this.yPos] = this.scrollCalc();
   }
 
 }

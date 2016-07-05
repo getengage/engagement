@@ -1,4 +1,5 @@
 import Scroll from './Scroll';
-import Timer from './Timer';
+import Visibility from './Visibility';
+import Session from './Session';
 
-module.exports = { Scroll, Timer };
+module.exports = { Scroll, Visibility, Session };

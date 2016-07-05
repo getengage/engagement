@@ -3,7 +3,7 @@ import co from 'co';
 import Nightmare from 'nightmare';
 import engage from '../src/index';
 
-describe('engage', () => {
+describe('engage (base)', () => {
   var nightmare;
 
   describe('#run', () => {
@@ -49,8 +49,8 @@ describe('engage', () => {
 
   it('registers engage on page', co.wrap(function*() {
     var result = yield nightmare
-      .goto('http://google.com')
-      .wait('body')
+      .goto('http://yahoo.com')
+      .wait()
       .inject('js', 'dist/engage.min.js')
       .evaluate(() => {
         return window.engage.run({element: 'body_copy', api_key: '1234'});
@@ -64,23 +64,56 @@ describe('engage', () => {
 
   it('tracks user scrolls', co.wrap(function*() {
     var setup = yield nightmare
-      .goto('http://google.com')
+      .goto('http://yahoo.com')
       .viewport(600, 600)
-      .wait('body')
+      .wait()
       .inject('js', 'dist/engage.min.js')
       .evaluate(() => {
         window.engage.run({element: 'body_copy', api_key: '1234'});
       });
 
     var result = yield nightmare
-      .scrollTo(0, 100)
+      .scrollTo(0, 100)  // top, left
       .wait(1000)
       .evaluate(() => {
-        return window.engage.instance.manager.scroll.position;
+        return window.engage.instance.manager.scroll.xPos;
       });
 
-    assert.deepEqual(result, [100,0]);
+    assert.deepEqual(result, 100);
     yield nightmare.end();
   }));
+
+
+  it('tracks user session', co.wrap(function*() {
+    var result = yield nightmare
+      .goto('http://yahoo.com')
+      .viewport(600, 600)
+      .wait()
+      .inject('js', 'dist/engage.min.js')
+      .evaluate(() => {
+        return window.engage.run({element: 'body_copy', api_key: '1234'});
+      });
+
+    assert.deepEqual(result.manager.session.source_url, 'https://www.yahoo.com');
+    assert.deepEqual(result.manager.session.referrer, '');
+    assert(result.manager.session.session_id);
+
+    var session = yield {id: result.manager.session.session_id};
+
+    var result = yield nightmare
+      .click('a[href="https://www.yahoo.com/news/"]')
+      .wait()
+      .inject('js', 'dist/engage.min.js')
+      .evaluate(() => {
+        return window.engage.run({element: 'body_copy', api_key: '1234'});
+      });
+
+    assert.deepEqual(result.manager.session.source_url, 'https://www.yahoo.com/news');
+    assert.deepEqual(result.manager.session.referrer, 'https://www.yahoo.com');
+    assert.deepEqual(result.manager.session.session_id, session.id);
+
+    yield nightmare.end();
+  }));
+
 
 });

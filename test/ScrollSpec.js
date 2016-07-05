@@ -2,18 +2,22 @@ import assert from 'assert';
 import { Scroll } from '../src/tracking';
 
 describe('Scroll', () => {
-  var scroll;
+  var instance;
 
   before(function() {
-    scroll = new Scroll();
+    instance = new Scroll();
   });
 
   it('is a valid class', () => {
-    assert(scroll instanceof Scroll);
+    assert(instance instanceof Scroll);
   });
 
-  it('has an initial position', () => {
-    assert.deepEqual(scroll.position, [0, 0]);
+  it('has an initial x Pos', () => {
+    assert.equal(instance.xPos, 0);
+  });
+
+  it('has an initial y Pos', () => {
+    assert.equal(instance.yPos, 0);
   });
 
 });

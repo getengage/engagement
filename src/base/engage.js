@@ -17,10 +17,11 @@ class engage {
   }
 
   toJSON() {
-    return JSON.stringify({ id: this.options.api_key, data: this.manager.inspect() });
+    const data = $$.extend({ api_key: this.options.api_key }, { data: this.manager.inspect() });
+    return JSON.stringify(data);
   }
 
-  inspect() {
+  format() {
     return new Blob(
       [this.toJSON()], { type: this.options.content }
     );
@@ -28,7 +29,7 @@ class engage {
 
   emitter() {
     setInterval(() => {
-      window.navigator.sendBeacon(this.options.url, this.inspect());
+      window.navigator.sendBeacon(this.options.url, this.format());
     }, 2000);
   }
 

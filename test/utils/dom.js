@@ -14,7 +14,16 @@ win.performance = {
 };
 
 win.navigator.sendBeacon = function() {
+  // do something
+};
 
+win.sessionStorage = {
+  getItem: function (key) {
+    return this[key];
+  },
+  setItem: function (key, value) {
+    this[key] = value;
+  }
 };
 
 // set globals for mocha that make access to document and window feel
