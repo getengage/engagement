@@ -1,7 +1,9 @@
 import jsdom from 'jsdom';
 
 // setup the simplest document possible
-var doc = jsdom.jsdom('<!doctype html><html><body></body></html>');
+var doc = jsdom.jsdom('<!doctype html><html><body></body></html>', {
+  url: 'http://test.page/'
+});
 
 // get the window object out of the document
 var win = doc.defaultView;

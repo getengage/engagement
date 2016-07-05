@@ -8,7 +8,7 @@ class Session {
 
   sessionId() {
     const sessionId = window.sessionStorage.getItem('__engage_session');
-    if (sessionId === null) {
+    if (sessionId == null) {
       const newId = this.idTemplate();
       window.sessionStorage.setItem('__engage_session', newId);
       return newId;
