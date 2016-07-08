@@ -43,6 +43,19 @@ describe('engage (base)', () => {
     });
   });
 
+  describe('_format', () => {
+
+    before(function() {
+      if (engage.instance) engage.instance = null;
+    });
+
+    it('returns Blob with json content type', () => {
+      engage.run({element: 'body_copy', api_key: '1234'});
+      assert(engage.instance.format() instanceof Blob);
+      assert.deepEqual(engage.instance.format().type, 'application/vnd.engage.api+json; charset=utf-8');
+    });
+  });
+
   beforeEach(() => {
     nightmare = new Nightmare();
   });
