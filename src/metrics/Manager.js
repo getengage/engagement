@@ -4,7 +4,7 @@ import { Adapters } from '../utils/';
 class Manager {
 
   constructor() {
-    this.created_at = Date.now();
+    this.timestamp = Date.now();
     this.scroll = new Scroll();
     this.session = new Session();
     this.visibility = new Visibility();
@@ -20,7 +20,7 @@ class Manager {
 
   inspect() {
     return {
-      created_at: this.created_at,
+      timestamp: this.timestamp,
       session_id: this.session.session_id,
       referrer: this.session.referrer,
       x_pos: this.scroll.xPos,

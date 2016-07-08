@@ -4,7 +4,7 @@ import { Manager } from '../src/metrics';
 describe('Manager', () => {
   var instance;
   var keys = [
-    'created_at',
+    'timestamp',
     'session_id',
     'referrer',
     'x_pos',

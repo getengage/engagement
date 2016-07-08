@@ -4,7 +4,7 @@ import { $$ } from '../utils';
 let instance = null;
 const defaults = {
   content: 'application/vnd.engage.api+json; charset=UTF-8',
-  url: 'https://example.localtunnel.me/v1/reports',
+  url: 'http://localhost:3000/v1/reports',
 };
 
 class engage {
@@ -17,8 +17,8 @@ class engage {
   }
 
   toJSON() {
-    const data = $$.extend({ api_key: this.options.api_key }, { data: this.manager.inspect() });
-    return JSON.stringify(data);
+    const data = $$.extend({ api_key: this.options.api_key }, this.manager.inspect());
+    return JSON.stringify({ data });
   }
 
   format() {
