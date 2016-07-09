@@ -4,7 +4,7 @@ import { $$ } from '../utils';
 let instance = null;
 const defaults = {
   content: 'application/vnd.engage.api+json; charset=UTF-8',
-  url: 'http://localhost:3000/v1/reports',
+  url: 'http://api.engage.dev/v1/reports',
 };
 
 class engage {
