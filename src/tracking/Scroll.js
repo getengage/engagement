@@ -17,10 +17,16 @@ class Scroll {
     } else {
       throw new Error('Not Supported');
     }
+
     this.contentElements = document.getElementsByClassName(element);
-    this.upperContentBound = this.contentElements[0];
-    this.lowerContentBound = this.contentElements[this.contentElements.length - 1];
-    this.update();
+
+    if (this.contentElements.length === 0) {
+      throw new Error("No Elements Found");
+    } else {
+      this.upperContentBound = this.contentElements[0];
+      this.lowerContentBound = this.contentElements[this.contentElements.length - 1];
+      this.update();
+    }
   }
 
   update() {

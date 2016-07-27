@@ -29,6 +29,8 @@ class Manager {
       is_visible: this.visibility.is_visible,
       source_url: this.session.source_url,
       in_viewport: this.scroll.elementInViewport,
+      upper_content_bound: this.scroll.upperContentBound,
+      lower_content_bound: this.scroll.lowerContentBound,
     };
   }
 
