@@ -96,6 +96,34 @@ describe('engage (base)', () => {
     yield nightmare.end();
   }));
 
+  it.only('tracks elements in viewport', co.wrap(function*() {
+    var setup = yield nightmare
+      .goto('http://huffingtonpost.com')
+      .viewport(600, 600)
+      .wait('header')
+      .inject('js', 'dist/engage.min.js')
+      .evaluate(() => {
+        return window.engage.run({element: 'header', api_key: '1234'});
+      });
+
+    var result = yield nightmare
+      .evaluate(() => {
+        return window.engage.instance.manager.scroll.elementInViewport;
+      });
+
+    assert.deepEqual(result, true);
+
+    var second_result = yield nightmare
+      .scrollTo(600, 0)
+      .wait(3000)
+      .evaluate(() => {
+        return window.engage.instance.manager.scroll.elementInViewport;
+      });
+
+    assert.deepEqual(result, false);
+
+    yield nightmare.end();
+  }));
 
   it('tracks user session', co.wrap(function*() {
     var result = yield nightmare

@@ -17,8 +17,8 @@ class Scroll {
     } else {
       throw new Error('Not Supported');
     }
-    this.update();
     this.element = element;
+    this.update();
   }
 
   update() {
