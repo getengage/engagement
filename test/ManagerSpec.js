@@ -10,11 +10,12 @@ describe('Manager', () => {
     'x_pos',
     'y_pos',
     'is_visible',
-    'source_url'
+    'source_url',
+    'in_viewport',
   ];
 
   before(function() {
-    instance = new Manager();
+    instance = new Manager({element: 'some_element'});
   });
 
   it('is a valid class', () => {

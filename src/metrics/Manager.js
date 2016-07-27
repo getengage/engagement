@@ -28,6 +28,7 @@ class Manager {
       y_pos: this.scroll.yPos,
       is_visible: this.visibility.is_visible,
       source_url: this.session.source_url,
+      in_viewport: this.scroll.elementInViewport,
     };
   }
 
