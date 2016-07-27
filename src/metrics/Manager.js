@@ -3,9 +3,10 @@ import { Adapters } from '../utils/';
 
 class Manager {
 
-  constructor() {
+  constructor(options) {
+    this.options = options;
     this.timestamp = Date.now();
-    this.scroll = new Scroll();
+    this.scroll = new Scroll(options.element);
     this.session = new Session();
     this.visibility = new Visibility();
     this.startTracking();
