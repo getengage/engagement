@@ -113,6 +113,16 @@ describe('engage (base)', () => {
 
     assert.deepEqual(result, true);
 
+    var second_result = yield nightmare
+      .scrollTo(1200, 0)
+      .size()
+      .wait(2000)
+      .evaluate(() => {
+        return window.engage.instance.manager.scroll.elementInViewport;
+      });
+
+    assert.deepEqual(result, false);
+
     yield nightmare.end();
   }));
 

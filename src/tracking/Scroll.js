@@ -17,7 +17,9 @@ class Scroll {
     } else {
       throw new Error('Not Supported');
     }
-    this.element = element;
+    this.contentElements = document.getElementsByClassName(element);
+    this.upperContentBound = this.contentElements[0];
+    this.lowerContentBound = this.contentElements[this.contentElements.length - 1];
     this.update();
   }
 
@@ -27,7 +29,7 @@ class Scroll {
   }
 
   elementsInViewport() {
-    const viewportChecks = Array.from(document.getElementsByClassName(this.element), (el) => {
+    const viewportChecks = Array.from(this.contentElements, (el) => {
       const rect = el.getBoundingClientRect();
       return (
           rect.top >= 0 &&
