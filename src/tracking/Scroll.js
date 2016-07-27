@@ -18,15 +18,24 @@ class Scroll {
       throw new Error('Not Supported');
     }
 
-    this.contentElements = document.getElementsByClassName(element);
-
-    if (this.contentElements.length === 0) {
-      throw new Error("No Elements Found");
-    } else {
-      this.upperContentBound = this.contentElements[0];
-      this.lowerContentBound = this.contentElements[this.contentElements.length - 1];
+    this.setContentElements().then(() => {
       this.update();
-    }
+    }).catch((error) =>
+      throw new Error(error);
+    });
+  }
+
+  setContentElements() {
+    return new Promise(function(resolve, reject) {
+      this.elements = document.getElementsByClassName(element);
+      if (this.elements.length === 0) {
+        reject('No Elements Found');
+      } else {
+        this.upperContentBound = this.elements[0];
+        this.lowerContentBound = this.elements[this.elements.length - 1];
+        resolve();
+      }
+    });
   }
 
   update() {
@@ -35,7 +44,7 @@ class Scroll {
   }
 
   elementsInViewport() {
-    const viewportChecks = Array.from(this.contentElements, (el) => {
+    const viewportChecks = Array.from(this.elements, (el) => {
       const rect = el.getBoundingClientRect();
       return (
           rect.top >= 0 &&
