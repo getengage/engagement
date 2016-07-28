@@ -5,7 +5,7 @@ describe('Scroll', () => {
   var instance;
 
   before(function() {
-    instance = new Scroll();
+    instance = new Scroll('main');
   });
 
   it('is a valid class', () => {
@@ -18,6 +18,10 @@ describe('Scroll', () => {
 
   it('has an initial y Pos', () => {
     assert.equal(instance.yPos, 0);
+  });
+
+  it('has an initial elementInViewport', () => {
+    assert(instance.elementInViewport);
   });
 
 });
