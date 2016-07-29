@@ -98,7 +98,7 @@ describe('engage (base)', () => {
 
   it('tracks elements in viewport', co.wrap(function*() {
     var setup = yield nightmare
-      .goto('http://yahoo.com')
+      .goto('http://huffingtonpost.com')
       .viewport(1200, 1200)
       .wait()
       .inject('js', 'dist/engage.min.js')
@@ -108,19 +108,12 @@ describe('engage (base)', () => {
 
     var result = yield nightmare
       .evaluate(() => {
-        return window.engage.instance.manager.scroll.elementInViewport;
+        return window.engage.instance.manager.scroll;
       });
 
-    assert.deepEqual(result, true);
-
-    // var second_result = yield nightmare
-    //   .scrollTo(1200, 0)
-    //   .wait(2000)
-    //   .evaluate(() => {
-    //     return window.engage.instance.manager.scroll.elementInViewport;
-    //   });
-    //
-    // assert.deepEqual(result, false);
+    assert.deepEqual(result.elementInViewport, true);
+    assert.equal(result.top, 0);
+    assert.equal(result.bottom, 130);
 
     yield nightmare.end();
   }));

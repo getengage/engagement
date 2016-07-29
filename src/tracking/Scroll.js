@@ -42,8 +42,8 @@ class Scroll {
       if (self.elements.length === 0) {
         reject('No Elements Found');
       } else {
-        self.upperContentBound = self.elements[0];
-        self.lowerContentBound = self.elements[self.elements.length - 1];
+        self.top = self.elements[0].getBoundingClientRect().top;
+        self.bottom = self.elements[self.elements.length - 1].getBoundingClientRect().bottom;
         resolve();
       }
     });

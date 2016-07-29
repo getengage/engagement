@@ -12,8 +12,8 @@ describe('Manager', () => {
     'is_visible',
     'source_url',
     'in_viewport',
-    'upper_content_bound',
-    'lower_content_bound',
+    'top',
+    'bottom',
   ];
 
   before(function() {
