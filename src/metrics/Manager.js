@@ -26,11 +26,12 @@ class Manager {
       referrer: this.session.referrer,
       x_pos: this.scroll.xPos,
       y_pos: this.scroll.yPos,
+      top: this.scroll.top,
+      bottom: this.scroll.bottom,
+      word_count: this.scroll.word_count,
       is_visible: this.visibility.is_visible,
       source_url: this.session.source_url,
       in_viewport: this.scroll.elementInViewport,
-      top: this.scroll.top,
-      bottom: this.scroll.bottom,
     };
   }
 

@@ -60,17 +60,31 @@ describe('engage (base)', () => {
     nightmare = new Nightmare();
   });
 
-  it('registers engage on page', co.wrap(function*() {
+  it  ('doesnt engage on page wo/ element', co.wrap(function*() {
     var result = yield nightmare
       .goto('http://yahoo.com')
       .wait()
       .inject('js', 'dist/engage.min.js')
       .evaluate(() => {
         return window.engage.run({element: 'body_copy', api_key: '1234'});
+      })
+      .catch((err) => {
+        assert.equal(err, "No Elements Found")
+      });
+
+    yield nightmare.end();
+  }));
+
+  it('registers engage on page w/ element', co.wrap(function*() {
+    var result = yield nightmare
+      .goto('http://yahoo.com')
+      .wait()
+      .inject('js', 'dist/engage.min.js')
+      .evaluate(() => {
+        return window.engage.run({element: 'header', api_key: '1234'});
       });
 
     assert(result.manager);
-    assert(result.options);
 
     yield nightmare.end();
   }));
@@ -82,7 +96,7 @@ describe('engage (base)', () => {
       .wait()
       .inject('js', 'dist/engage.min.js')
       .evaluate(() => {
-        window.engage.run({element: 'body_copy', api_key: '1234'});
+        window.engage.run({element: 'header', api_key: '1234'});
       });
 
     var result = yield nightmare
@@ -125,7 +139,7 @@ describe('engage (base)', () => {
       .wait()
       .inject('js', 'dist/engage.min.js')
       .evaluate(() => {
-        return window.engage.run({element: 'body_copy', api_key: '1234'});
+        return window.engage.run({element: 'header', api_key: '1234'});
       })
       .catch((err) => {
         console.log('err:', err);
@@ -142,7 +156,7 @@ describe('engage (base)', () => {
       .wait()
       .inject('js', 'dist/engage.min.js')
       .evaluate(() => {
-        return window.engage.run({element: 'body_copy', api_key: '1234'});
+        return window.engage.run({element: 'header', api_key: '1234'});
       });
 
     assert.deepEqual(result.manager.session.source_url, 'https://www.yahoo.com/news');

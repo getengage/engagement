@@ -1,7 +1,7 @@
 import jsdom from 'jsdom';
 
 // setup the simplest document possible
-var doc = jsdom.jsdom('<!doctype html><html><body><div class="main"></div></body></html>', {
+var doc = jsdom.jsdom('<!doctype html><html><body><div class="main"><p>This is a test.</p></div></body></html>', {
   url: 'http://test.page/'
 });
 

@@ -20,6 +20,10 @@ describe('Scroll', () => {
     assert.equal(instance.yPos, 0);
   });
 
+  it("has a word total", () => {
+    assert.equal(instance.word_count, 4);
+  });
+
   it('has an initial elementInViewport', () => {
     assert(instance.elementInViewport);
   });

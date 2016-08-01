@@ -1,10 +1,12 @@
 class Scroll {
 
   constructor(element) {
+    this.word_count = 0;
+    this.viewportChecks = [];
     this.elementClass = element;
+    this.setContentElements();
     this.findScrollCalcVars()
       .then(this.setScrollCalc.bind(this))
-      .then(this.setContentElements.bind(this))
       .then(() => {
         this.update();
       })
@@ -37,16 +39,25 @@ class Scroll {
 
   setContentElements() {
     const self = this;
-    return new Promise((resolve, reject) => {
-      self.elements = document.getElementsByClassName(self.elementClass);
-      if (self.elements.length === 0) {
-        reject('No Elements Found');
-      } else {
-        self.top = self.elements[0].getBoundingClientRect().top;
-        self.bottom = self.elements[self.elements.length - 1].getBoundingClientRect().bottom;
-        resolve();
-      }
-    });
+    const elements = document.getElementsByClassName(this.elementClass);
+    if (elements.length === 0) {
+      throw new Error('No Elements Found');
+    } else {
+      Object.keys(elements).forEach((key) => {
+        const rect = elements[key].getBoundingClientRect();
+        self.word_count += elements[key].innerHTML.replace(/<\/?[^>]+(>|$)/g, '').split(' ').length;
+        self.viewportChecks.push(
+            rect.top >= 0 &&
+            rect.left >= 0 &&
+            rect.bottom <= (window.innerHeight || document.documentElement
+                .clientHeight) &&
+            rect.right <= (window.innerWidth || document.documentElement
+                .clientWidth)
+        );
+      });
+      self.top = elements[0].getBoundingClientRect().top;
+      self.bottom = elements[elements.length - 1].getBoundingClientRect().bottom;
+    }
   }
 
   update() {
@@ -55,18 +66,7 @@ class Scroll {
   }
 
   elementsInViewport() {
-    const viewportChecks = Array.from(this.elements, (el) => {
-      const rect = el.getBoundingClientRect();
-      return (
-          rect.top >= 0 &&
-          rect.left >= 0 &&
-          rect.bottom <= (window.innerHeight || document.documentElement
-              .clientHeight) &&
-          rect.right <= (window.innerWidth || document.documentElement
-              .clientWidth)
-      );
-    });
-    return viewportChecks.some(x => x === true);
+    return this.viewportChecks.some(x => x === true);
   }
 }
 
