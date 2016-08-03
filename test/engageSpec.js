@@ -60,7 +60,7 @@ describe('engage (base)', () => {
     nightmare = new Nightmare();
   });
 
-  it  ('doesnt engage on page wo/ element', co.wrap(function*() {
+  it('doesnt engage on page wo/ element', co.wrap(function*() {
     var result = yield nightmare
       .goto('http://yahoo.com')
       .wait()

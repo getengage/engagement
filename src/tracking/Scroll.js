@@ -3,43 +3,30 @@ class Scroll {
   constructor(element) {
     this.word_count = 0;
     this.viewportChecks = [];
-    this.elementClass = element;
-    this.setContentElements();
-    this.findScrollCalcVars()
-      .then(this.setScrollCalc.bind(this))
-      .then(() => {
-        this.update();
-      })
-      .catch((error) => {
-        throw new Error(error);
-      });
+    this.setScrollCalc();
+    this.setContentElements(element);
+    this.update();
   }
 
-  findScrollCalcVars() {
-    return new Promise((resolve, reject) => {
-      if (typeof window.pageYOffset !== 'undefined') {
-        resolve(() => ([window.pageXOffset, window.pageYOffset]));
-      } else if (typeof document.documentElement.scrollTop !== 'undefined' &&
-      document.documentElement.scrollTop > 0) {
-        resolve(() => ([document.documentElement.scrollLeft, document.documentElement.scrollTop]));
-      } else if (typeof document.body.scrollTop !== 'undefined') {
-        resolve(() => ([document.body.scrollLeft, document.body.scrollTop]));
-      } else {
-        reject('Not Supported');
-      }
-    });
+  setScrollCalc() {
+    if (typeof window.pageYOffset !== 'undefined') {
+      this.scrollCalc = () =>
+        ([window.pageXOffset, window.pageYOffset]);
+    } else if (typeof document.documentElement.scrollTop !== 'undefined' &&
+    document.documentElement.scrollTop > 0) {
+      this.scrollCalc = () =>
+        ([document.documentElement.scrollLeft, document.documentElement.scrollTop]);
+    } else if (typeof document.body.scrollTop !== 'undefined') {
+      this.scrollCalc = () =>
+        ([document.body.scrollLeft, document.body.scrollTop]);
+    } else {
+      throw new Error('Not Supported');
+    }
   }
 
-  setScrollCalc(fn) {
+  setContentElements(element) {
     const self = this;
-    return new Promise((resolve) => {
-      self.scrollCalc = fn; resolve();
-    });
-  }
-
-  setContentElements() {
-    const self = this;
-    const elements = document.getElementsByClassName(this.elementClass);
+    const elements = document.getElementsByClassName(element);
     if (elements.length === 0) {
       throw new Error('No Elements Found');
     } else {
