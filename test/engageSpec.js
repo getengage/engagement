@@ -20,8 +20,12 @@ describe('engage (base)', () => {
       assert.throws(function(){engage.run({api_key: '1234'})}, 'No element option passed');
     });
 
-    it('is callable w/ opts', () => {
-      assert(engage.run({element: 'body_copy', api_key: '1234'}), false);
+    it('is uncallable wo/ valid opts', () => {
+      assert.throws(function(){engage.run({element: 'this_doesnt_exist', api_key: '1234'})}, 'No Elements Found');
+    });
+
+    it('is callable w/ valid opts', () => {
+      assert(engage.run({element: 'main', api_key: '1234'}));
     });
 
   });
