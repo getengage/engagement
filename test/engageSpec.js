@@ -135,7 +135,6 @@ describe('engage (base)', () => {
   it('tracks user session', co.wrap(function*() {
     var result = yield nightmare
       .goto('http://yahoo.com')
-      .viewport(600, 600)
       .wait()
       .inject('js', 'dist/engage.min.js')
       .evaluate(() => {
@@ -156,7 +155,10 @@ describe('engage (base)', () => {
       .wait()
       .inject('js', 'dist/engage.min.js')
       .evaluate(() => {
-        return window.engage.run({element: 'header', api_key: '1234'});
+        return window.engage.run({element: 'render-target-active', api_key: '1234'});
+      })
+      .catch((err) => {
+        console.log('err:', err);
       });
 
     assert.deepEqual(result.manager.session.source_url, 'https://www.yahoo.com/news');
