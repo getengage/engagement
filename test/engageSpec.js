@@ -41,7 +41,7 @@ describe('engage (base)', () => {
     });
 
     it('returns instance if defined', () => {
-      engage.run({element: 'body_copy', api_key: '1234'});
+      engage.run({element: 'main', api_key: '1234'});
       assert.doesNotThrow(function() {engage.instance });
       assert(engage.instance instanceof engage);
     });
@@ -54,7 +54,7 @@ describe('engage (base)', () => {
     });
 
     it('returns Blob with json content type', () => {
-      engage.run({element: 'body_copy', api_key: '1234'});
+      engage.run({element: 'main', api_key: '1234'});
       assert(engage.instance.format() instanceof Blob);
       assert.deepEqual(engage.instance.format().type, 'application/vnd.engage.api+json; charset=utf-8');
     });
