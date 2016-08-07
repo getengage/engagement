@@ -9,12 +9,16 @@ describe('Manager', () => {
     'referrer',
     'x_pos',
     'y_pos',
+    'top',
+    'bottom',
+    "word_count",
     'is_visible',
-    'source_url'
+    'source_url',
+    'in_viewport',
   ];
 
   before(function() {
-    instance = new Manager();
+    instance = new Manager({element: 'main'});
   });
 
   it('is a valid class', () => {
