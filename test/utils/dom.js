@@ -1,8 +1,15 @@
 import jsdom from 'jsdom';
 
 // setup the simplest document possible
-var doc = jsdom.jsdom('<!doctype html><html><body><div class="main"><p>This is a test.</p></div></body></html>', {
-  url: 'http://test.page/'
+var doc = jsdom.jsdom('<!doctype html><html><body><div style="height:100px;width:auto" class="main"><p>This is a test.</p></div></body></html>', {
+  url: 'http://test.page/',
+  done: function (error, w) {
+    w.constructor.prototype.resizeTo = function (width, height) {
+        this.innerWidth = this.outerWidth = width;
+        this.innerHeight = this.outerHeight = height;
+    };
+    w.resizeTo(100, 200);
+  }
 });
 
 // get the window object out of the document
