@@ -41,7 +41,6 @@ class Scroll {
 
   inBounds(el) {
     const rect = el.getBoundingClientRect();
-    console.log(rect);
     return rect.bottom > 0 &&
       rect.right > 0 &&
       rect.left < (window.innerWidth || document.documentElement.clientWidth) &&
