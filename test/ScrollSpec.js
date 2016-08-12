@@ -25,7 +25,7 @@ describe.only('Scroll', () => {
   });
 
   it('has an initial elementInViewport', () => {
-    assert(instance.elementInViewport);
+    assert.equal(instance.elementInViewport, false);
   });
 
 });
