@@ -1,7 +1,7 @@
 import assert from 'assert';
 import { Scroll } from '../src/tracking';
 
-describe('Scroll', () => {
+describe.only('Scroll', () => {
   var instance;
 
   before(function() {
@@ -25,7 +25,7 @@ describe('Scroll', () => {
   });
 
   it('has an initial elementInViewport', () => {
-    assert(instance.elementInViewport);
+    assert.equal(instance.elementInViewport, false);
   });
 
 });

@@ -31,20 +31,20 @@ class Scroll {
       throw new Error('No Elements Found');
     } else {
       Object.keys(elements).forEach((key) => {
-        const rect = elements[key].getBoundingClientRect();
         self.word_count += elements[key].innerHTML.replace(/<\/?[^>]+(>|$)/g, '').split(' ').length;
-        self.viewportChecks.push(
-            rect.top >= 0 &&
-            rect.left >= 0 &&
-            rect.bottom <= (window.innerHeight || document.documentElement
-                .clientHeight) &&
-            rect.right <= (window.innerWidth || document.documentElement
-                .clientWidth)
-        );
+        self.viewportChecks.push(elements[key]);
       });
       self.top = elements[0].getBoundingClientRect().top;
       self.bottom = elements[elements.length - 1].getBoundingClientRect().bottom;
     }
+  }
+
+  inBounds(el) {
+    const rect = el.getBoundingClientRect();
+    return rect.bottom > 0 &&
+      rect.right > 0 &&
+      rect.left < (window.innerWidth || document.documentElement.clientWidth) &&
+      rect.top < (window.innerHeight || document.documentElement.clientHeight);
   }
 
   update() {
@@ -53,7 +53,7 @@ class Scroll {
   }
 
   elementsInViewport() {
-    return this.viewportChecks.some(x => x === true);
+    return this.viewportChecks.some(el => this.inBounds(el));
   }
 }
 
