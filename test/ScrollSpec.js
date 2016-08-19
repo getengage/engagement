@@ -1,7 +1,7 @@
 import assert from 'assert';
 import { Scroll } from '../src/tracking';
 
-describe.only('Scroll', () => {
+describe('Scroll', () => {
   var instance;
 
   before(function() {
