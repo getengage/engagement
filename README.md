@@ -2,6 +2,7 @@
 <h4 align="center">Metrics and Analytics</h4>
 
 <p align="center">
+  <a href="https://codeclimate.com/github/nicksoto/engagement"><img src="https://codeclimate.com/github/nicksoto/engagement/badges/gpa.svg" /></a>
 </p>
 <br>
 
