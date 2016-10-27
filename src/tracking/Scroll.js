@@ -1,3 +1,5 @@
+import { PubSub } from '../utils/';
+
 class Scroll {
 
   constructor(element) {
@@ -6,6 +8,8 @@ class Scroll {
     this.setScrollCalc();
     this.setContentElements(element);
     this.update();
+    this.pubsub = new PubSub();
+    this.pubsub.subscribe('Scroll', this.update, this);
   }
 
   setScrollCalc() {

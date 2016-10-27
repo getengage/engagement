@@ -1,11 +1,12 @@
 import { Scroll, Session, Visibility } from '../tracking';
-import { Adapters } from '../utils/';
+import { Adapters, PubSub } from '../utils/';
 
 class Manager {
 
   constructor(options) {
     this.options = options;
     this.timestamp = Date.now();
+    this.pubsub = new PubSub();
     this.scroll = new Scroll(options.element);
     this.session = new Session();
     this.visibility = new Visibility();
@@ -13,10 +14,8 @@ class Manager {
   }
 
   startTracking() {
-    window.addEventListener('scroll', this.scroll.update.bind(this.scroll), false);
-    document.addEventListener(
-      Adapters.vchange, this.visibility.update.bind(this.visibility), false
-    );
+    window.addEventListener('scroll', () => this.pubsub.publish('Scroll'));
+    document.addEventListener(Adapters.vchange, () => this.pubsub.publish('Visibility'), false);
   }
 
   inspect() {

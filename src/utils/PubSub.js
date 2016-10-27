@@ -1,7 +1,9 @@
+const handlers = [];
+
 class PubSub {
 
   constructor() {
-    this.handlers = [];
+    this.handlers = handlers;
   }
 
   subscribe(event, handler, context) {
@@ -19,4 +21,4 @@ class PubSub {
   }
 }
 
-export default PubSub;
+module.exports = PubSub;

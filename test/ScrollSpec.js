@@ -12,6 +12,10 @@ describe('Scroll', () => {
     assert(instance instanceof Scroll);
   });
 
+  it('has a reference to pubsub', () => {
+    assert(instance.pubsub);
+  });
+
   it('has an initial x Pos', () => {
     assert.equal(instance.xPos, 0);
   });

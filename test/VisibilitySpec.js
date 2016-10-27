@@ -12,6 +12,10 @@ describe('Visibility', () => {
     assert(instance instanceof Visibility);
   });
 
+  it('has a reference to pubsub', () => {
+    assert(instance.pubsub);
+  });
+
   it('has an initial is_visible', () => {
     assert(instance.is_visible);
   });

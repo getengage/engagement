@@ -80,14 +80,14 @@ var engage =
 	
 	var _metrics = __webpack_require__(3);
 	
-	var _utils = __webpack_require__(8);
+	var _utils = __webpack_require__(7);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var instance = null;
 	var defaults = {
 	  content: 'application/vnd.engage.api+json; charset=UTF-8',
-	  url: 'http://api.engage.dev/v1/reports'
+	  url: 'http://api.engage.dev/v1/metrics'
 	};
 	
 	var engage = function () {
@@ -180,7 +180,7 @@ var engage =
 	
 	var _tracking = __webpack_require__(5);
 	
-	var _utils = __webpack_require__(8);
+	var _utils = __webpack_require__(7);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -190,6 +190,7 @@ var engage =
 	
 	    this.options = options;
 	    this.timestamp = Date.now();
+	    this.pubsub = new _utils.PubSub();
 	    this.scroll = new _tracking.Scroll(options.element);
 	    this.session = new _tracking.Session();
 	    this.visibility = new _tracking.Visibility();
@@ -199,8 +200,14 @@ var engage =
 	  _createClass(Manager, [{
 	    key: 'startTracking',
 	    value: function startTracking() {
-	      window.addEventListener('scroll', this.scroll.update.bind(this.scroll), false);
-	      document.addEventListener(_utils.Adapters.vchange, this.visibility.update.bind(this.visibility), false);
+	      var _this = this;
+	
+	      window.addEventListener('scroll', function () {
+	        return _this.pubsub.publish('Scroll');
+	      });
+	      document.addEventListener(_utils.Adapters.vchange, function () {
+	        return _this.pubsub.publish('Visibility');
+	      }, false);
 	    }
 	  }, {
 	    key: 'inspect',
@@ -236,11 +243,11 @@ var engage =
 	
 	var _Scroll2 = _interopRequireDefault(_Scroll);
 	
-	var _Visibility = __webpack_require__(7);
+	var _Visibility = __webpack_require__(11);
 	
 	var _Visibility2 = _interopRequireDefault(_Visibility);
 	
-	var _Session = __webpack_require__(11);
+	var _Session = __webpack_require__(12);
 	
 	var _Session2 = _interopRequireDefault(_Session);
 	
@@ -250,13 +257,15 @@ var engage =
 
 /***/ },
 /* 6 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _utils = __webpack_require__(7);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -269,6 +278,8 @@ var engage =
 	    this.setScrollCalc();
 	    this.setContentElements(element);
 	    this.update();
+	    this.pubsub = new _utils.PubSub();
+	    this.pubsub.subscribe('Scroll', this.update, this);
 	  }
 	
 	  _createClass(Scroll, [{
@@ -346,51 +357,24 @@ var engage =
 
 	'use strict';
 	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _utils = __webpack_require__(8);
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	var Visibility = function () {
-	  function Visibility() {
-	    _classCallCheck(this, Visibility);
-	
-	    this.is_visible = true;
-	  }
-	
-	  _createClass(Visibility, [{
-	    key: 'update',
-	    value: function update() {
-	      this.is_visible = window.document[_utils.Adapters.vhidden];
-	    }
-	  }]);
-	
-	  return Visibility;
-	}();
-	
-	module.exports = Visibility;
-
-/***/ },
-/* 8 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var _Utils = __webpack_require__(9);
+	var _Utils = __webpack_require__(8);
 	
 	var _Utils2 = _interopRequireDefault(_Utils);
 	
-	var _Adapters = __webpack_require__(10);
+	var _Adapters = __webpack_require__(9);
 	
 	var _Adapters2 = _interopRequireDefault(_Adapters);
 	
+	var _PubSub = __webpack_require__(10);
+	
+	var _PubSub2 = _interopRequireDefault(_PubSub);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	module.exports = { $$: _Utils2.default, Adapters: _Adapters2.default };
+	module.exports = { $$: _Utils2.default, Adapters: _Adapters2.default, PubSub: _PubSub2.default };
 
 /***/ },
-/* 9 */
+/* 8 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -417,7 +401,7 @@ var engage =
 	module.exports = $$;
 
 /***/ },
-/* 10 */
+/* 9 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -443,7 +427,82 @@ var engage =
 	module.exports = { vhidden: vhidden, vchange: vchange };
 
 /***/ },
+/* 10 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var handlers = [];
+	
+	var PubSub = function () {
+	  function PubSub() {
+	    _classCallCheck(this, PubSub);
+	
+	    this.handlers = handlers;
+	  }
+	
+	  _createClass(PubSub, [{
+	    key: 'subscribe',
+	    value: function subscribe(event, handler, context) {
+	      var ctx = typeof context === 'undefined' ? handler : context;
+	      this.handlers.push({ event: event, handler: handler.bind(ctx) });
+	    }
+	  }, {
+	    key: 'publish',
+	    value: function publish(event) {
+	      var i = void 0;
+	      for (i = 0; i < this.handlers.length; i++) {
+	        if (this.handlers[i].event === event) {
+	          this.handlers[i].handler.call();
+	        }
+	      }
+	    }
+	  }]);
+	
+	  return PubSub;
+	}();
+	
+	module.exports = PubSub;
+
+/***/ },
 /* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _utils = __webpack_require__(7);
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var Visibility = function () {
+	  function Visibility() {
+	    _classCallCheck(this, Visibility);
+	
+	    this.is_visible = true;
+	    this.pubsub = new _utils.PubSub();
+	    this.pubsub.subscribe('Visibility', this.update, this);
+	  }
+	
+	  _createClass(Visibility, [{
+	    key: 'update',
+	    value: function update() {
+	      this.is_visible = window.document[_utils.Adapters.vhidden];
+	    }
+	  }]);
+	
+	  return Visibility;
+	}();
+	
+	module.exports = Visibility;
+
+/***/ },
+/* 12 */
 /***/ function(module, exports) {
 
 	'use strict';
