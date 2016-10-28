@@ -102,41 +102,37 @@ var engage =
 	    this.emitter();
 	  }
 	
-	  _createClass(engage, [{
-	    key: 'toJSON',
-	    value: function toJSON() {
-	      var data = _utils.$$.extend({ api_key: this.options.api_key }, this.manager.inspect());
-	      return JSON.stringify({ data: data });
-	    }
-	  }, {
-	    key: 'format',
-	    value: function format() {
-	      return new Blob([this.toJSON()], { type: this.options.content });
-	    }
-	  }, {
-	    key: 'emitter',
-	    value: function emitter() {
-	      var _this = this;
+	  engage.prototype.toJSON = function toJSON() {
+	    var data = _utils.$$.extend({ api_key: this.options.api_key }, this.manager.inspect());
+	    return JSON.stringify({ data: data });
+	  };
 	
-	      setInterval(function () {
-	        window.navigator.sendBeacon(_this.options.url, _this.format());
-	      }, 2000);
+	  engage.prototype.format = function format() {
+	    return new Blob([this.toJSON()], { type: this.options.content });
+	  };
+	
+	  engage.prototype.emitter = function emitter() {
+	    var _this = this;
+	
+	    setInterval(function () {
+	      window.navigator.sendBeacon(_this.options.url, _this.format());
+	    }, 2000);
+	  };
+	
+	  engage.run = function run(options) {
+	    if (!options) {
+	      throw new Error('No options passed');
 	    }
-	  }], [{
-	    key: 'run',
-	    value: function run(options) {
-	      if (!options) {
-	        throw new Error('No options passed');
-	      }
-	      if (!options.api_key) {
-	        throw new Error('No API Key passed');
-	      }
-	      if (!options.element) {
-	        throw new Error('No element option passed');
-	      }
-	      return new engage(options); // eslint-disable-line new-cap
+	    if (!options.api_key) {
+	      throw new Error('No API Key passed');
 	    }
-	  }, {
+	    if (!options.element) {
+	      throw new Error('No element option passed');
+	    }
+	    return new engage(options); // eslint-disable-line new-cap
+	  };
+	
+	  _createClass(engage, null, [{
 	    key: 'instance',
 	    get: function get() {
 	      if (!instance) {
@@ -176,8 +172,6 @@ var engage =
 
 	'use strict';
 	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
 	var _tracking = __webpack_require__(5);
 	
 	var _utils = __webpack_require__(7);
@@ -197,36 +191,32 @@ var engage =
 	    this.startTracking();
 	  }
 	
-	  _createClass(Manager, [{
-	    key: 'startTracking',
-	    value: function startTracking() {
-	      var _this = this;
+	  Manager.prototype.startTracking = function startTracking() {
+	    var _this = this;
 	
-	      window.addEventListener('scroll', function () {
-	        return _this.pubsub.publish('Scroll');
-	      });
-	      document.addEventListener(_utils.Adapters.vchange, function () {
-	        return _this.pubsub.publish('Visibility');
-	      }, false);
-	    }
-	  }, {
-	    key: 'inspect',
-	    value: function inspect() {
-	      return {
-	        timestamp: this.timestamp,
-	        session_id: this.session.session_id,
-	        referrer: this.session.referrer,
-	        x_pos: this.scroll.xPos,
-	        y_pos: this.scroll.yPos,
-	        top: this.scroll.top,
-	        bottom: this.scroll.bottom,
-	        word_count: this.scroll.word_count,
-	        is_visible: this.visibility.is_visible,
-	        source_url: this.session.source_url,
-	        in_viewport: this.scroll.elementInViewport
-	      };
-	    }
-	  }]);
+	    window.addEventListener('scroll', function () {
+	      return _this.pubsub.publish('Scroll');
+	    });
+	    document.addEventListener(_utils.Adapters.vchange, function () {
+	      return _this.pubsub.publish('Visibility');
+	    }, false);
+	  };
+	
+	  Manager.prototype.inspect = function inspect() {
+	    return {
+	      timestamp: this.timestamp,
+	      session_id: this.session.session_id,
+	      referrer: this.session.referrer,
+	      x_pos: this.scroll.xPos,
+	      y_pos: this.scroll.yPos,
+	      top: this.scroll.top,
+	      bottom: this.scroll.bottom,
+	      word_count: this.scroll.word_count,
+	      is_visible: this.visibility.is_visible,
+	      source_url: this.session.source_url,
+	      in_viewport: this.scroll.elementInViewport
+	    };
+	  };
 	
 	  return Manager;
 	}();
@@ -263,8 +253,6 @@ var engage =
 	
 	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
 	var _utils = __webpack_require__(7);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -282,69 +270,62 @@ var engage =
 	    this.pubsub.subscribe('Scroll', this.update, this);
 	  }
 	
-	  _createClass(Scroll, [{
-	    key: 'setScrollCalc',
-	    value: function setScrollCalc() {
-	      if (typeof window.pageYOffset !== 'undefined') {
-	        this.scrollCalc = function () {
-	          return [window.pageXOffset, window.pageYOffset];
-	        };
-	      } else if (typeof document.documentElement.scrollTop !== 'undefined' && document.documentElement.scrollTop > 0) {
-	        this.scrollCalc = function () {
-	          return [document.documentElement.scrollLeft, document.documentElement.scrollTop];
-	        };
-	      } else if (typeof document.body.scrollTop !== 'undefined') {
-	        this.scrollCalc = function () {
-	          return [document.body.scrollLeft, document.body.scrollTop];
-	        };
-	      } else {
-	        throw new Error('Not Supported');
-	      }
+	  Scroll.prototype.setScrollCalc = function setScrollCalc() {
+	    if (typeof window.pageYOffset !== 'undefined') {
+	      this.scrollCalc = function () {
+	        return [window.pageXOffset, window.pageYOffset];
+	      };
+	    } else if (typeof document.documentElement.scrollTop !== 'undefined' && document.documentElement.scrollTop > 0) {
+	      this.scrollCalc = function () {
+	        return [document.documentElement.scrollLeft, document.documentElement.scrollTop];
+	      };
+	    } else if (typeof document.body.scrollTop !== 'undefined') {
+	      this.scrollCalc = function () {
+	        return [document.body.scrollLeft, document.body.scrollTop];
+	      };
+	    } else {
+	      throw new Error('Not Supported');
 	    }
-	  }, {
-	    key: 'setContentElements',
-	    value: function setContentElements(element) {
-	      var self = this;
-	      var elements = document.getElementsByClassName(element);
-	      if (elements.length === 0) {
-	        throw new Error('No Elements Found');
-	      } else {
-	        Object.keys(elements).forEach(function (key) {
-	          self.word_count += elements[key].innerHTML.replace(/<\/?[^>]+(>|$)/g, '').split(' ').length;
-	          self.viewportChecks.push(elements[key]);
-	        });
-	        self.top = elements[0].getBoundingClientRect().top;
-	        self.bottom = elements[elements.length - 1].getBoundingClientRect().bottom;
-	      }
-	    }
-	  }, {
-	    key: 'inBounds',
-	    value: function inBounds(el) {
-	      var rect = el.getBoundingClientRect();
-	      return rect.bottom > 0 && rect.right > 0 && rect.left < (window.innerWidth || document.documentElement.clientWidth) && rect.top < (window.innerHeight || document.documentElement.clientHeight);
-	    }
-	  }, {
-	    key: 'update',
-	    value: function update() {
-	      var _scrollCalc = this.scrollCalc();
+	  };
 	
-	      var _scrollCalc2 = _slicedToArray(_scrollCalc, 2);
-	
-	      this.xPos = _scrollCalc2[0];
-	      this.yPos = _scrollCalc2[1];
-	
-	      this.elementInViewport = this.elementsInViewport();
-	    }
-	  }, {
-	    key: 'elementsInViewport',
-	    value: function elementsInViewport() {
-	      var _this = this;
-	
-	      return this.viewportChecks.some(function (el) {
-	        return _this.inBounds(el);
+	  Scroll.prototype.setContentElements = function setContentElements(element) {
+	    var self = this;
+	    var elements = document.getElementsByClassName(element);
+	    if (elements.length === 0) {
+	      throw new Error('No Elements Found');
+	    } else {
+	      Object.keys(elements).forEach(function (key) {
+	        self.word_count += elements[key].innerHTML.replace(/<\/?[^>]+(>|$)/g, '').split(' ').length;
+	        self.viewportChecks.push(elements[key]);
 	      });
+	      self.top = elements[0].getBoundingClientRect().top;
+	      self.bottom = elements[elements.length - 1].getBoundingClientRect().bottom;
 	    }
-	  }]);
+	  };
+	
+	  Scroll.prototype.inBounds = function inBounds(el) {
+	    var rect = el.getBoundingClientRect();
+	    return rect.bottom > 0 && rect.right > 0 && rect.left < (window.innerWidth || document.documentElement.clientWidth) && rect.top < (window.innerHeight || document.documentElement.clientHeight);
+	  };
+	
+	  Scroll.prototype.update = function update() {
+	    var _scrollCalc = this.scrollCalc();
+	
+	    var _scrollCalc2 = _slicedToArray(_scrollCalc, 2);
+	
+	    this.xPos = _scrollCalc2[0];
+	    this.yPos = _scrollCalc2[1];
+	
+	    this.elementInViewport = this.elementsInViewport();
+	  };
+	
+	  Scroll.prototype.elementsInViewport = function elementsInViewport() {
+	    var _this = this;
+	
+	    return this.viewportChecks.some(function (el) {
+	      return _this.inBounds(el);
+	    });
+	  };
 	
 	  return Scroll;
 	}();
@@ -379,8 +360,6 @@ var engage =
 
 	"use strict";
 	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var $$ = function () {
@@ -388,12 +367,9 @@ var engage =
 	    _classCallCheck(this, $$);
 	  }
 	
-	  _createClass($$, null, [{
-	    key: "extend",
-	    value: function extend(obj1, obj2) {
-	      return Object.assign(Object.create(Object.prototype), obj1, obj2);
-	    }
-	  }]);
+	  $$.extend = function extend(obj1, obj2) {
+	    return Object.assign(Object.create(Object.prototype), obj1, obj2);
+	  };
 	
 	  return $$;
 	}();
@@ -432,8 +408,6 @@ var engage =
 
 	'use strict';
 	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var handlers = [];
@@ -445,23 +419,19 @@ var engage =
 	    this.handlers = handlers;
 	  }
 	
-	  _createClass(PubSub, [{
-	    key: 'subscribe',
-	    value: function subscribe(event, handler, context) {
-	      var ctx = typeof context === 'undefined' ? handler : context;
-	      this.handlers.push({ event: event, handler: handler.bind(ctx) });
-	    }
-	  }, {
-	    key: 'publish',
-	    value: function publish(event) {
-	      var i = void 0;
-	      for (i = 0; i < this.handlers.length; i++) {
-	        if (this.handlers[i].event === event) {
-	          this.handlers[i].handler.call();
-	        }
+	  PubSub.prototype.subscribe = function subscribe(event, handler, context) {
+	    var ctx = typeof context === 'undefined' ? handler : context;
+	    this.handlers.push({ event: event, handler: handler.bind(ctx) });
+	  };
+	
+	  PubSub.prototype.publish = function publish(event) {
+	    var i = void 0;
+	    for (i = 0; i < this.handlers.length; i++) {
+	      if (this.handlers[i].event === event) {
+	        this.handlers[i].handler.call();
 	      }
 	    }
-	  }]);
+	  };
 	
 	  return PubSub;
 	}();
@@ -473,8 +443,6 @@ var engage =
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _utils = __webpack_require__(7);
 	
@@ -489,12 +457,9 @@ var engage =
 	    this.pubsub.subscribe('Visibility', this.update, this);
 	  }
 	
-	  _createClass(Visibility, [{
-	    key: 'update',
-	    value: function update() {
-	      this.is_visible = window.document[_utils.Adapters.vhidden];
-	    }
-	  }]);
+	  Visibility.prototype.update = function update() {
+	    this.is_visible = window.document[_utils.Adapters.vhidden];
+	  };
 	
 	  return Visibility;
 	}();
@@ -507,8 +472,6 @@ var engage =
 
 	'use strict';
 	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var Session = function () {
@@ -520,29 +483,24 @@ var engage =
 	    this.source_url = document.URL.replace(/\/$/, '');
 	  }
 	
-	  _createClass(Session, [{
-	    key: 'sessionId',
-	    value: function sessionId() {
-	      var sessionId = window.sessionStorage.getItem('__engage_session');
-	      if (sessionId == null) {
-	        var newId = this.idTemplate();
-	        window.sessionStorage.setItem('__engage_session', newId);
-	        return newId;
-	      }
-	      return sessionId;
+	  Session.prototype.sessionId = function sessionId() {
+	    var sessionId = window.sessionStorage.getItem('__engage_session');
+	    if (sessionId == null) {
+	      var newId = this.idTemplate();
+	      window.sessionStorage.setItem('__engage_session', newId);
+	      return newId;
 	    }
-	  }, {
-	    key: 'referrer',
-	    value: function referrer() {
-	      var url = document.referrer.replace(/\/$/, '');
-	      return url.match(location.hostname) ? url : '';
-	    }
-	  }, {
-	    key: 'idTemplate',
-	    value: function idTemplate() {
-	      return '_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
-	    }
-	  }]);
+	    return sessionId;
+	  };
+	
+	  Session.prototype.referrer = function referrer() {
+	    var url = document.referrer.replace(/\/$/, '');
+	    return url.match(location.hostname) ? url : '';
+	  };
+	
+	  Session.prototype.idTemplate = function idTemplate() {
+	    return '_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+	  };
 	
 	  return Session;
 	}();

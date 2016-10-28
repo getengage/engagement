@@ -9,15 +9,17 @@ module.exports = {
   output: {
     path: __dirname + "/dist",
     filename: "[name].js",
-    library: 'engage'
+    library: 'engage',
   },
   module: {
     loaders: [
       {
         loader: 'babel-loader',
         query: {
-          presets: 'es2015',
-        },
+          presets: [
+            ['es2015', { loose: true, modules: false }]
+          ]
+        }
       }
     ]
   },
@@ -29,12 +31,9 @@ module.exports = {
     // uncompressed & compressed files
     new webpack.optimize.UglifyJsPlugin({
       include: /\.min\.js$/,
-      minimize: true
+      minimize: true,
     })
   ],
-  // externals: {
-  //   "operative": "operative"
-  // },
   stats: {
     // Nice colored output
     colors: true
