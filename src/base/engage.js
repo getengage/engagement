@@ -17,7 +17,7 @@ class engage {
   }
 
   toJSON() {
-    const data = $$.extend({ api_key: this.options.api_key }, this.manager.inspect());
+    const data = $$.extend({ api_key_id: this.options.api_key }, this.manager.inspect());
     return JSON.stringify({ data });
   }
 
