@@ -18,7 +18,7 @@ describe('Manager', () => {
   ];
 
   before(function() {
-    instance = new Manager({element: 'main'});
+    instance = new Manager({element: '.main'});
   });
 
   it('is a valid class', () => {

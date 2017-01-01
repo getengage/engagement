@@ -43,6 +43,7 @@
     "jsdom": "^9.2.1",
     "mocha": "^2.5.3",
     "nightmare": "^2.5.2",
+    "npm-check-updates": "^2.8.9",
     "sinon": "^1.17.6",
     "webpack": "^1.13.1",
     "webpack-stream": "^3.2.0",

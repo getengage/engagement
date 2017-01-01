@@ -6,6 +6,8 @@ import watch from 'gulp-watch';
 import sequence from 'gulp-sequence';
 import plumber from 'gulp-plumber';
 import packageJSON from './package.json';
+import npmCheck from 'npm-check';
+import ncu from 'npm-check-updates';
 
 // webpack
 import webpack from 'webpack-stream';
@@ -16,10 +18,21 @@ const sourceDirectory = packageJSON.directories.src;
 const destinationDirectory = packageJSON.directories.compiled;
 const glob = `${sourceDirectory}/**/*.js`;
 
-// Cleans the distribution directory,
+// Checks for outdated packages, cleans the distribution directory,
 // watches for file changes and compiles the scripts.
 gulp.task('default', (callback) => {
-  sequence('clean', 'compile', 'watch', callback);
+  sequence('outdated', 'clean', 'compile', 'watch', callback);
+});
+
+gulp.task('outdated', (callback) => {
+  ncu.run({
+    packageFile: './package.json',
+    silent: true,
+    jsonUpgraded: true
+  }).then((upgraded) => {
+    console.log('Hold On. Dependencies need update', upgraded);
+    callback();
+  });
 });
 
 // Cleans the dist directory.

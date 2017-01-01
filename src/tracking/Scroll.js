@@ -30,7 +30,7 @@ class Scroll {
 
   setContentElements(element) {
     const self = this;
-    const elements = document.getElementsByClassName(element);
+    const elements = document.querySelectorAll(element);
     if (elements.length === 0) {
       throw new Error('No Elements Found');
     } else {

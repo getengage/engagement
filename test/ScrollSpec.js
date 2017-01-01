@@ -5,7 +5,7 @@ describe('Scroll', () => {
   var instance;
 
   before(function() {
-    instance = new Scroll('main');
+    instance = new Scroll('.main');
   });
 
   it('is a valid class', () => {
