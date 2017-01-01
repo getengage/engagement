@@ -103,12 +103,12 @@ var engage =
 	  }
 	
 	  engage.prototype.toJSON = function toJSON() {
-	    var data = _utils.$$.extend({ api_key: this.options.api_key }, this.manager.inspect());
+	    var data = _utils.$$.extend({ api_key_id: this.options.api_key }, this.manager.inspect());
 	    return JSON.stringify({ data: data });
 	  };
 	
 	  engage.prototype.format = function format() {
-	    return new Blob([this.toJSON()], { type: this.options.content });
+	    return new window.Blob([this.toJSON()], { type: this.options.content });
 	  };
 	
 	  engage.prototype.emitter = function emitter() {
@@ -183,7 +183,7 @@ var engage =
 	    _classCallCheck(this, Manager);
 	
 	    this.options = options;
-	    this.timestamp = Date.now();
+	    this.timestamp = new Date().toISOString();
 	    this.pubsub = new _utils.PubSub();
 	    this.scroll = new _tracking.Scroll(options.element);
 	    this.session = new _tracking.Session();
@@ -251,8 +251,6 @@ var engage =
 
 	'use strict';
 	
-	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-	
 	var _utils = __webpack_require__(7);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -290,7 +288,7 @@ var engage =
 	
 	  Scroll.prototype.setContentElements = function setContentElements(element) {
 	    var self = this;
-	    var elements = document.getElementsByClassName(element);
+	    var elements = document.querySelectorAll(element);
 	    if (elements.length === 0) {
 	      throw new Error('No Elements Found');
 	    } else {
@@ -303,7 +301,7 @@ var engage =
 	    }
 	  };
 	
-	  Scroll.prototype.inBounds = function inBounds(el) {
+	  Scroll.inBounds = function inBounds(el) {
 	    var rect = el.getBoundingClientRect();
 	    return rect.bottom > 0 && rect.right > 0 && rect.left < (window.innerWidth || document.documentElement.clientWidth) && rect.top < (window.innerHeight || document.documentElement.clientHeight);
 	  };
@@ -311,19 +309,15 @@ var engage =
 	  Scroll.prototype.update = function update() {
 	    var _scrollCalc = this.scrollCalc();
 	
-	    var _scrollCalc2 = _slicedToArray(_scrollCalc, 2);
-	
-	    this.xPos = _scrollCalc2[0];
-	    this.yPos = _scrollCalc2[1];
+	    this.xPos = _scrollCalc[0];
+	    this.yPos = _scrollCalc[1];
 	
 	    this.elementInViewport = this.elementsInViewport();
 	  };
 	
 	  Scroll.prototype.elementsInViewport = function elementsInViewport() {
-	    var _this = this;
-	
 	    return this.viewportChecks.some(function (el) {
-	      return _this.inBounds(el);
+	      return Scroll.inBounds(el);
 	    });
 	  };
 	
@@ -360,6 +354,8 @@ var engage =
 
 	"use strict";
 	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var $$ = function () {
@@ -368,7 +364,7 @@ var engage =
 	  }
 	
 	  $$.extend = function extend(obj1, obj2) {
-	    return Object.assign(Object.create(Object.prototype), obj1, obj2);
+	    return _extends(Object.create(Object.prototype), obj1, obj2);
 	  };
 	
 	  return $$;
@@ -426,7 +422,7 @@ var engage =
 	
 	  PubSub.prototype.publish = function publish(event) {
 	    var i = void 0;
-	    for (i = 0; i < this.handlers.length; i++) {
+	    for (i = 0; i < this.handlers.length; i += 1) {
 	      if (this.handlers[i].event === event) {
 	        this.handlers[i].handler.call();
 	      }
@@ -478,27 +474,27 @@ var engage =
 	  function Session() {
 	    _classCallCheck(this, Session);
 	
-	    this.session_id = this.sessionId();
-	    this.referrer = this.referrer();
+	    this.session_id = Session.sessionId();
+	    this.referrer = Session.referrer();
 	    this.source_url = document.URL.replace(/\/$/, '');
 	  }
 	
-	  Session.prototype.sessionId = function sessionId() {
+	  Session.sessionId = function sessionId() {
 	    var sessionId = window.sessionStorage.getItem('__engage_session');
 	    if (sessionId == null) {
-	      var newId = this.idTemplate();
+	      var newId = Session.idTemplate();
 	      window.sessionStorage.setItem('__engage_session', newId);
 	      return newId;
 	    }
 	    return sessionId;
 	  };
 	
-	  Session.prototype.referrer = function referrer() {
+	  Session.referrer = function referrer() {
 	    var url = document.referrer.replace(/\/$/, '');
 	    return url.match(location.hostname) ? url : '';
 	  };
 	
-	  Session.prototype.idTemplate = function idTemplate() {
+	  Session.idTemplate = function idTemplate() {
 	    return '_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
 	  };
 	

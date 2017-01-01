@@ -17,14 +17,12 @@ class engage {
   }
 
   toJSON() {
-    const data = $$.extend({ api_key: this.options.api_key }, this.manager.inspect());
+    const data = $$.extend({ api_key_id: this.options.api_key }, this.manager.inspect());
     return JSON.stringify({ data });
   }
 
   format() {
-    return new Blob(
-      [this.toJSON()], { type: this.options.content }
-    );
+    return new window.Blob([this.toJSON()], { type: this.options.content });
   }
 
   emitter() {

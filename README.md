@@ -1,43 +1,33 @@
-<h1 align="center"><br>Engagement<br></h1>
-<h4 align="center">Metrics and Analytics</h4>
+<img src="https://raw.githubusercontent.com/nicksoto/engagement-backend/master/app/assets/images/get_engaged.png" alt="Engagement" width="980">
 
 <p align="center">
   <a href="https://codeclimate.com/github/nicksoto/engagement"><img src="https://codeclimate.com/github/nicksoto/engagement/badges/gpa.svg" /></a>
 </p>
 <br>
 
-This is the home for the Engagement frontend
+The Engagement JS Client
 
-#### Features
+### Background
 
-- add
-- more
-- stuff
+The Engagement JS Client sends engagement metrics (e.g. time on page, scroll position, etc. ) to an Engagement Server at regular intevals. Please see [README.md](https://github.com/nicksoto/engagement-backend/blob/master/README.md) for more details
 
-#### Inspiration
+### Requirements
 
-- add
+- An API Key generated from the [engagement  ](https://github.com/nicksoto/engagement-backend/blob/master/README.md) settings section
+- A page with content identifiable by either class or ID
 
-#### Todo
+### How to Use
 
-- add
-- more
-- stuff
+before the closing body tag of a page, and after engage.js has loaded:
 
-#### Dependencies & Setup
-
-```unix
-  brew install pg
-  brew install redis
+```javascript
+  engage.run({element: '.text_content', api_key: 'YOUR_API_KEY'});
 ```
 
-```ruby
-rake db:setup
-```
+### Contributing / Setup
 
-## Contributing
-See [contribution docs](CONTRIBUTING.md).
+Please read [CONTRIBUTING.md](https://github.com/nicksoto/engagement-backend/blob/master/CONTRIBUTING.md) for details on contributing as well as information on system setup
 
-#### License
+### License
 
-Copyright (c) [Nick Soto](http://google.com)
+Copyright (c) [Nick Soto](http://github.com/nicksoto)

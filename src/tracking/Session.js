@@ -1,27 +1,27 @@
 class Session {
 
   constructor() {
-    this.session_id = this.sessionId();
-    this.referrer = this.referrer();
+    this.session_id = Session.sessionId();
+    this.referrer = Session.referrer();
     this.source_url = document.URL.replace(/\/$/, '');
   }
 
-  sessionId() {
+  static sessionId() {
     const sessionId = window.sessionStorage.getItem('__engage_session');
     if (sessionId == null) {
-      const newId = this.idTemplate();
+      const newId = Session.idTemplate();
       window.sessionStorage.setItem('__engage_session', newId);
       return newId;
     }
     return sessionId;
   }
 
-  referrer() {
+  static referrer() {
     const url = document.referrer.replace(/\/$/, '');
     return url.match(location.hostname) ? url : '';
   }
 
-  idTemplate() {
+  static idTemplate() {
     return `_${Math.random().toString(36).substr(2, 9)}_${Date.now()}`;
   }
 

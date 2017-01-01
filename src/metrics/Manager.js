@@ -5,7 +5,7 @@ class Manager {
 
   constructor(options) {
     this.options = options;
-    this.timestamp = Date.now();
+    this.timestamp = new Date().toISOString();
     this.pubsub = new PubSub();
     this.scroll = new Scroll(options.element);
     this.session = new Session();

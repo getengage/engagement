@@ -13,7 +13,7 @@ describe('engage (base)', () => {
     });
 
     it('is uncallable without api key', () => {
-      assert.throws(function(){engage.run({element: 'body_copy'})}, 'No API Key passed');
+      assert.throws(function(){engage.run({element: '.body_copy'})}, 'No API Key passed');
     });
 
     it('is uncallable without target element', () => {
@@ -21,11 +21,15 @@ describe('engage (base)', () => {
     });
 
     it('is uncallable wo/ valid opts', () => {
-      assert.throws(function(){engage.run({element: 'this_doesnt_exist', api_key: '1234'})}, 'No Elements Found');
+      assert.throws(function(){engage.run({element: '.this_doesnt_exist', api_key: '1234'})}, 'No Elements Found');
     });
 
-    it('is callable w/ valid opts', () => {
-      assert(engage.run({element: 'main', api_key: '1234'}));
+    it('is callable w/ valid class name', () => {
+      assert(engage.run({element: '.main', api_key: '1234'}));
+    });
+
+    it('is callable w/ valid id', () => {
+      assert(engage.run({element: '#main', api_key: '1234'}));
     });
 
   });
@@ -41,7 +45,7 @@ describe('engage (base)', () => {
     });
 
     it('returns instance if defined', () => {
-      engage.run({element: 'main', api_key: '1234'});
+      engage.run({element: '.main', api_key: '1234'});
       assert.doesNotThrow(function() {engage.instance });
       assert(engage.instance instanceof engage);
     });
@@ -54,8 +58,8 @@ describe('engage (base)', () => {
     });
 
     it('returns Blob with json content type', () => {
-      engage.run({element: 'main', api_key: '1234'});
-      assert(engage.instance.format() instanceof Blob);
+      engage.run({element: '.main', api_key: '1234'});
+      assert(engage.instance.format() instanceof window.Blob);
       assert.deepEqual(engage.instance.format().type, 'application/vnd.engage.api+json; charset=utf-8');
     });
   });
@@ -66,11 +70,11 @@ describe('engage (base)', () => {
 
   it('doesnt engage on page wo/ element', co.wrap(function*() {
     var result = yield nightmare
-      .goto('http://yahoo.com')
+      .goto('http://example.com')
       .wait()
       .inject('js', 'dist/engage.min.js')
       .evaluate(() => {
-        return window.engage.run({element: 'body_copy', api_key: '1234'});
+        return window.engage.run({element: '.body_copy', api_key: '1234'});
       })
       .catch((err) => {
         assert.equal(err, "No Elements Found")
@@ -81,11 +85,11 @@ describe('engage (base)', () => {
 
   it('registers engage on page w/ element', co.wrap(function*() {
     var result = yield nightmare
-      .goto('http://yahoo.com')
+      .goto('http://example.com')
       .wait()
       .inject('js', 'dist/engage.min.js')
       .evaluate(() => {
-        return window.engage.run({element: 'header', api_key: '1234'});
+        return window.engage.run({element: 'div', api_key: '1234'});
       });
 
     assert(result.manager);
@@ -100,7 +104,7 @@ describe('engage (base)', () => {
       .wait()
       .inject('js', 'dist/engage.min.js')
       .evaluate(() => {
-        window.engage.run({element: 'header', api_key: '1234'});
+        window.engage.run({element: '.header', api_key: '1234'});
       });
 
     var result = yield nightmare
@@ -116,12 +120,12 @@ describe('engage (base)', () => {
 
   it('tracks elements in viewport', co.wrap(function*() {
     var setup = yield nightmare
-      .goto('http://huffingtonpost.com')
+      .goto('http://example.com')
       .viewport(1200, 1200)
       .wait()
       .inject('js', 'dist/engage.min.js')
       .evaluate(() => {
-        return window.engage.run({element: 'header', api_key: '1234'});
+        return window.engage.run({element: 'div', api_key: '1234'});
       });
 
     var result = yield nightmare
@@ -130,47 +134,79 @@ describe('engage (base)', () => {
       });
 
     assert.deepEqual(result.elementInViewport, true);
-    assert.equal(result.top, 0);
-    assert.equal(result.bottom, 130);
+    assert.equal(result.top, 80);
+    assert.equal(result.bottom, 365.875);
 
     yield nightmare.end();
   }));
 
-  it('tracks user session', co.wrap(function*() {
+  it("doesn't track alternate domain session and referrer", co.wrap(function*() {
     var result = yield nightmare
-      .goto('http://yahoo.com')
+      .goto('https://www.example.com')
       .wait()
       .inject('js', 'dist/engage.min.js')
       .evaluate(() => {
-        return window.engage.run({element: 'header', api_key: '1234'});
+        return window.engage.run({element: 'div', api_key: '1234'});
       })
       .catch((err) => {
         console.log('err:', err);
       });
 
-    assert.deepEqual(result.manager.session.source_url, 'https://www.yahoo.com');
-    assert.deepEqual(result.manager.session.referrer, '');
+    assert.equal(result.manager.session.source_url, 'https://www.example.com');
+    assert(result.manager.session.session_id);
+    var session = yield {id: result.manager.session.session_id};
+
+    var result = yield nightmare
+      .click('a[href="http://www.iana.org/domains/example"]')
+      .wait()
+      .inject('js', 'dist/engage.min.js')
+      .evaluate(() => {
+        return window.engage.run({element: '#body', api_key: '1234'});
+      })
+      .catch((err) => {
+        console.log('err:', err);
+      });
+
+    assert.equal(result.manager.session.source_url, 'http://www.iana.org/domains/reserved');
+    assert.notEqual(result.manager.session.session_id, session.id);
+    assert.equal(result.manager.session.referrer, '');
+
+    yield nightmare.end();
+  }));
+
+  it('tracks samedomain session and referrer', co.wrap(function*() {
+    var result = yield nightmare
+      .goto('http://www.iana.org/domains')
+      .wait()
+      .inject('js', 'dist/engage.min.js')
+      .evaluate(() => {
+        return window.engage.run({element: '#body', api_key: '1234'});
+      })
+      .catch((err) => {
+        console.log('err:', err);
+      });
+
+    assert.equal(result.manager.session.source_url, 'http://www.iana.org/domains');
+    assert.equal(result.manager.session.referrer, '');
     assert(result.manager.session.session_id);
 
     var session = yield {id: result.manager.session.session_id};
 
     var result = yield nightmare
-      .click('a[href="https://www.yahoo.com/news/"]')
+      .click('a[href="/numbers"]')
       .wait()
       .inject('js', 'dist/engage.min.js')
       .evaluate(() => {
-        return window.engage.run({element: 'render-target-active', api_key: '1234'});
+        return window.engage.run({element: '#body', api_key: '1234'});
       })
       .catch((err) => {
         console.log('err:', err);
       });
 
-    assert.deepEqual(result.manager.session.source_url, 'https://www.yahoo.com/news');
-    assert.deepEqual(result.manager.session.referrer, 'https://www.yahoo.com');
-    assert.deepEqual(result.manager.session.session_id, session.id);
+    assert.equal(result.manager.session.source_url, 'http://www.iana.org/numbers');
+    assert.equal(result.manager.session.session_id, session.id);
+    assert.deepEqual(result.manager.session.referrer, 'http://www.iana.org/domains');
 
     yield nightmare.end();
   }));
-
-
 });

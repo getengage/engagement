@@ -1,7 +1,7 @@
 import jsdom from 'jsdom';
 
 // setup the simplest document possible
-var doc = jsdom.jsdom('<!doctype html><html><body><div style="height:100px;width:auto" class="main"><p>This is a test.</p></div></body></html>', {
+var doc = jsdom.jsdom('<!doctype html><html><body><div id="main" style="height:100px;width:auto" class="main"><p>This is a test.</p></div></body></html>', {
   url: 'http://test.page/',
   done: function (error, w) {
     w.constructor.prototype.resizeTo = function (width, height) {

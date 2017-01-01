@@ -30,7 +30,7 @@ class Scroll {
 
   setContentElements(element) {
     const self = this;
-    const elements = document.getElementsByClassName(element);
+    const elements = document.querySelectorAll(element);
     if (elements.length === 0) {
       throw new Error('No Elements Found');
     } else {
@@ -43,7 +43,7 @@ class Scroll {
     }
   }
 
-  inBounds(el) {
+  static inBounds(el) {
     const rect = el.getBoundingClientRect();
     return rect.bottom > 0 &&
       rect.right > 0 &&
@@ -57,7 +57,7 @@ class Scroll {
   }
 
   elementsInViewport() {
-    return this.viewportChecks.some(el => this.inBounds(el));
+    return this.viewportChecks.some(el => Scroll.inBounds(el));
   }
 }
 
