@@ -1984,7 +1984,7 @@ growl@1.9.2:
   version "1.9.2"
   resolved "https://registry.yarnpkg.com/growl/-/growl-1.9.2.tgz#0ea7743715db8d8de2c5ede1775e1b45ac85c02f"
 
-gulp-if@^2.0.1:
+gulp-if@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/gulp-if/-/gulp-if-2.0.2.tgz#a497b7e7573005041caa2bc8b7dda3c80444d629"
   dependencies:
@@ -2005,7 +2005,7 @@ gulp-plumber@^1.1.0:
     gulp-util "^3"
     through2 "^2"
 
-gulp-sequence@^0.4.5:
+gulp-sequence@^0.4.6:
   version "0.4.6"
   resolved "https://registry.yarnpkg.com/gulp-sequence/-/gulp-sequence-0.4.6.tgz#e388d64311046e05547af43035352d9495501c50"
   dependencies:
@@ -2035,7 +2035,7 @@ gulp-util@>=3.0.0, gulp-util@^3, gulp-util@^3.0.0, gulp-util@^3.0.7, gulp-util@^
     through2 "^2.0.0"
     vinyl "^0.5.0"
 
-gulp-watch@^4.3.6:
+gulp-watch@^4.3.11:
   version "4.3.11"
   resolved "https://registry.yarnpkg.com/gulp-watch/-/gulp-watch-4.3.11.tgz#162fc563de9fc770e91f9a7ce3955513a9a118c0"
   dependencies:
