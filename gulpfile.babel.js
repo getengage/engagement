@@ -28,7 +28,7 @@ gulp.task('outdated', (callback) => {
   ncu.run({
     packageFile: './package.json',
     silent: true,
-    jsonUpgraded: true
+    jsonUpgraded: true,
   }).then((upgraded) => {
     gutil.log('Hold On. Dependencies need update', upgraded);
     callback();
