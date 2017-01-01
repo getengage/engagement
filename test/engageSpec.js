@@ -59,7 +59,7 @@ describe('engage (base)', () => {
 
     it('returns Blob with json content type', () => {
       engage.run({element: '.main', api_key: '1234'});
-      assert(engage.instance.format() instanceof Blob);
+      assert(engage.instance.format() instanceof window.Blob);
       assert.deepEqual(engage.instance.format().type, 'application/vnd.engage.api+json; charset=utf-8');
     });
   });

@@ -108,7 +108,7 @@ var engage =
 	  };
 	
 	  engage.prototype.format = function format() {
-	    return new Blob([this.toJSON()], { type: this.options.content });
+	    return new window.Blob([this.toJSON()], { type: this.options.content });
 	  };
 	
 	  engage.prototype.emitter = function emitter() {
