@@ -1,4 +1,4 @@
-<img src="app/assets/images/get_engaged.png" alt="Engagement" width="980">
+<img src="https://raw.githubusercontent.com/nicksoto/engagement-backend/master/app/assets/images/get_engaged.png" alt="Engagement" width="980">
 
 <p align="center">
   <a href="https://codeclimate.com/github/nicksoto/engagement"><img src="https://codeclimate.com/github/nicksoto/engagement/badges/gpa.svg" /></a>
