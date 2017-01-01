@@ -38,6 +38,7 @@
     "gulp-if": "^2.0.1",
     "gulp-plumber": "^1.1.0",
     "gulp-sequence": "^0.4.5",
+    "gulp-util": "^3.0.8",
     "gulp-watch": "^4.3.6",
     "jquery": "^3.0.0",
     "jsdom": "^9.2.1",

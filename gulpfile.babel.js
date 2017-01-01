@@ -5,8 +5,8 @@ import gIf from 'gulp-if';
 import watch from 'gulp-watch';
 import sequence from 'gulp-sequence';
 import plumber from 'gulp-plumber';
+import gutil from 'gulp-util';
 import packageJSON from './package.json';
-import npmCheck from 'npm-check';
 import ncu from 'npm-check-updates';
 
 // webpack
@@ -30,7 +30,7 @@ gulp.task('outdated', (callback) => {
     silent: true,
     jsonUpgraded: true
   }).then((upgraded) => {
-    console.log('Hold On. Dependencies need update', upgraded);
+    gutil.log('Hold On. Dependencies need update', upgraded);
     callback();
   });
 });
