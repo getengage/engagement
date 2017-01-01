@@ -22,9 +22,7 @@ class engage {
   }
 
   format() {
-    return new Blob(
-      [this.toJSON()], { type: this.options.content }
-    );
+    return new Blob([this.toJSON()], { type: this.options.content });
   }
 
   emitter() {

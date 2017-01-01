@@ -5,7 +5,8 @@
 ### Dependencies
 
 ```unix
-  npm install
+  brew install yarn
+  yarn install
 ```
 
 ### Commands

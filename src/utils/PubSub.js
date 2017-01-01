@@ -13,7 +13,7 @@ class PubSub {
 
   publish(event) {
     let i;
-    for (i = 0; i < this.handlers.length; i++) {
+    for (i = 0; i < this.handlers.length; i += 1) {
       if (this.handlers[i].event === event) {
         this.handlers[i].handler.call();
       }

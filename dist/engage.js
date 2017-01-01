@@ -301,7 +301,7 @@ var engage =
 	    }
 	  };
 	
-	  Scroll.prototype.inBounds = function inBounds(el) {
+	  Scroll.inBounds = function inBounds(el) {
 	    var rect = el.getBoundingClientRect();
 	    return rect.bottom > 0 && rect.right > 0 && rect.left < (window.innerWidth || document.documentElement.clientWidth) && rect.top < (window.innerHeight || document.documentElement.clientHeight);
 	  };
@@ -316,10 +316,8 @@ var engage =
 	  };
 	
 	  Scroll.prototype.elementsInViewport = function elementsInViewport() {
-	    var _this = this;
-	
 	    return this.viewportChecks.some(function (el) {
-	      return _this.inBounds(el);
+	      return Scroll.inBounds(el);
 	    });
 	  };
 	
@@ -422,7 +420,7 @@ var engage =
 	
 	  PubSub.prototype.publish = function publish(event) {
 	    var i = void 0;
-	    for (i = 0; i < this.handlers.length; i++) {
+	    for (i = 0; i < this.handlers.length; i += 1) {
 	      if (this.handlers[i].event === event) {
 	        this.handlers[i].handler.call();
 	      }
@@ -474,27 +472,27 @@ var engage =
 	  function Session() {
 	    _classCallCheck(this, Session);
 	
-	    this.session_id = this.sessionId();
-	    this.referrer = this.referrer();
+	    this.session_id = Session.sessionId();
+	    this.referrer = Session.referrer();
 	    this.source_url = document.URL.replace(/\/$/, '');
 	  }
 	
-	  Session.prototype.sessionId = function sessionId() {
+	  Session.sessionId = function sessionId() {
 	    var sessionId = window.sessionStorage.getItem('__engage_session');
 	    if (sessionId == null) {
-	      var newId = this.idTemplate();
+	      var newId = Session.idTemplate();
 	      window.sessionStorage.setItem('__engage_session', newId);
 	      return newId;
 	    }
 	    return sessionId;
 	  };
 	
-	  Session.prototype.referrer = function referrer() {
+	  Session.referrer = function referrer() {
 	    var url = document.referrer.replace(/\/$/, '');
 	    return url.match(location.hostname) ? url : '';
 	  };
 	
-	  Session.prototype.idTemplate = function idTemplate() {
+	  Session.idTemplate = function idTemplate() {
 	    return '_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
 	  };
 	
