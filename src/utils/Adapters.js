@@ -1,6 +1,11 @@
 let vhidden;
 let vchange;
 
+const scrollCalc = () => {
+  if (typeof window.pageYOffset === 'undefined') throw new Error('Not Supported');
+  return [window.pageXOffset, window.pageYOffset];
+};
+
 if (typeof document.hidden !== 'undefined') { // Opera 12.10 and Firefox 18 and later support
   vhidden = 'hidden';
   vchange = 'visibilitychange';
@@ -15,4 +20,4 @@ if (typeof document.hidden !== 'undefined') { // Opera 12.10 and Firefox 18 and 
   vchange = 'webkitvisibilitychange';
 }
 
-module.exports = { vhidden, vchange };
+module.exports = { vhidden, vchange, scrollCalc };

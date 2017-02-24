@@ -261,30 +261,11 @@ var engage =
 	
 	    this.word_count = 0;
 	    this.viewportChecks = [];
-	    this.setScrollCalc();
 	    this.setContentElements(element);
 	    this.update();
 	    this.pubsub = new _utils.PubSub();
 	    this.pubsub.subscribe('Scroll', this.update, this);
 	  }
-	
-	  Scroll.prototype.setScrollCalc = function setScrollCalc() {
-	    if (typeof window.pageYOffset !== 'undefined') {
-	      this.scrollCalc = function () {
-	        return [window.pageXOffset, window.pageYOffset];
-	      };
-	    } else if (typeof document.documentElement.scrollTop !== 'undefined' && document.documentElement.scrollTop > 0) {
-	      this.scrollCalc = function () {
-	        return [document.documentElement.scrollLeft, document.documentElement.scrollTop];
-	      };
-	    } else if (typeof document.body.scrollTop !== 'undefined') {
-	      this.scrollCalc = function () {
-	        return [document.body.scrollLeft, document.body.scrollTop];
-	      };
-	    } else {
-	      throw new Error('Not Supported');
-	    }
-	  };
 	
 	  Scroll.prototype.setContentElements = function setContentElements(element) {
 	    var self = this;
@@ -307,10 +288,10 @@ var engage =
 	  };
 	
 	  Scroll.prototype.update = function update() {
-	    var _scrollCalc = this.scrollCalc();
+	    var _Adapters$scrollCalc = _utils.Adapters.scrollCalc();
 	
-	    this.xPos = _scrollCalc[0];
-	    this.yPos = _scrollCalc[1];
+	    this.xPos = _Adapters$scrollCalc[0];
+	    this.yPos = _Adapters$scrollCalc[1];
 	
 	    this.elementInViewport = this.elementsInViewport();
 	  };
@@ -381,6 +362,14 @@ var engage =
 	var vhidden = void 0;
 	var vchange = void 0;
 	
+	var scrollCalc = function scrollCalc() {
+	  if (typeof window.pageYOffset !== 'undefined') {
+	    return [window.pageXOffset, window.pageYOffset];
+	  } else {
+	    throw new Error('Not Supported');
+	  }
+	};
+	
 	if (typeof document.hidden !== 'undefined') {
 	  // Opera 12.10 and Firefox 18 and later support
 	  vhidden = 'hidden';
@@ -396,7 +385,7 @@ var engage =
 	  vchange = 'webkitvisibilitychange';
 	}
 	
-	module.exports = { vhidden: vhidden, vchange: vchange };
+	module.exports = { vhidden: vhidden, vchange: vchange, scrollCalc: scrollCalc };
 
 /***/ },
 /* 10 */

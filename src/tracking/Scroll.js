@@ -1,31 +1,14 @@
-import { PubSub } from '../utils/';
+import { Adapters, PubSub } from '../utils/';
 
 class Scroll {
 
   constructor(element) {
     this.word_count = 0;
     this.viewportChecks = [];
-    this.setScrollCalc();
     this.setContentElements(element);
     this.update();
     this.pubsub = new PubSub();
     this.pubsub.subscribe('Scroll', this.update, this);
-  }
-
-  setScrollCalc() {
-    if (typeof window.pageYOffset !== 'undefined') {
-      this.scrollCalc = () =>
-        ([window.pageXOffset, window.pageYOffset]);
-    } else if (typeof document.documentElement.scrollTop !== 'undefined' &&
-    document.documentElement.scrollTop > 0) {
-      this.scrollCalc = () =>
-        ([document.documentElement.scrollLeft, document.documentElement.scrollTop]);
-    } else if (typeof document.body.scrollTop !== 'undefined') {
-      this.scrollCalc = () =>
-        ([document.body.scrollLeft, document.body.scrollTop]);
-    } else {
-      throw new Error('Not Supported');
-    }
   }
 
   setContentElements(element) {
@@ -52,7 +35,7 @@ class Scroll {
   }
 
   update() {
-    [this.xPos, this.yPos] = this.scrollCalc();
+    [this.xPos, this.yPos] = Adapters.scrollCalc();
     this.elementInViewport = this.elementsInViewport();
   }
 
