@@ -1,7 +1,7 @@
 import assert from 'assert';
 import { Adapters } from '../src/utils';
 
-describe.only('Adapters', () => {
+describe('Adapters', () => {
 
   it("doesnt return something undefined", () => {
     assert.equal(Adapters.somethingNotDefined, undefined);
