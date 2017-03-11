@@ -3,7 +3,7 @@ import co from 'co';
 import Nightmare from 'nightmare';
 import engage from '../src/index';
 
-describe.only('engage (base)', () => {
+describe('engage (base)', () => {
   var nightmare;
 
   describe('#run', () => {
