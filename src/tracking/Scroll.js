@@ -1,10 +1,10 @@
-import { Adapters, PubSub } from '../utils/';
+import { $$, Adapters, PubSub } from '../utils/';
+
+let elements;
 
 class Scroll {
 
   constructor(element) {
-    this.word_count = 0;
-    this.viewportChecks = [];
     this.setContentElements(element);
     this.update();
     this.pubsub = new PubSub();
@@ -12,18 +12,18 @@ class Scroll {
   }
 
   setContentElements(element) {
-    const self = this;
-    const elements = document.querySelectorAll(element);
-    if (elements.length === 0) {
-      throw new Error('No Elements Found');
-    } else {
-      Object.keys(elements).forEach((key) => {
-        self.word_count += elements[key].innerHTML.replace(/<\/?[^>]+(>|$)/g, '').split(' ').length;
-        self.viewportChecks.push(elements[key]);
-      });
-      self.top = elements[0].getBoundingClientRect().top;
-      self.bottom = elements[elements.length - 1].getBoundingClientRect().bottom;
-    }
+    elements = $$.find(element);
+    if (elements.length === 0) throw new Error('No Elements Found');
+    this.top = elements[0].getBoundingClientRect().top;
+    this.bottom = elements[elements.length - 1].getBoundingClientRect().bottom;
+    elements.forEach((el) => {
+      this.word_count = (this.word_count || 0) + el.innerHTML.replace(/<\/?[^>]+(>|$)/g, '').split(' ').length;
+    });
+  }
+
+  update() {
+    [this.xPos, this.yPos] = Adapters.scrollCalc();
+    this.elementInViewport = Scroll.elementsInViewport();
   }
 
   static inBounds(el) {
@@ -34,13 +34,8 @@ class Scroll {
       rect.top < (window.innerHeight || document.documentElement.clientHeight);
   }
 
-  update() {
-    [this.xPos, this.yPos] = Adapters.scrollCalc();
-    this.elementInViewport = this.elementsInViewport();
-  }
-
-  elementsInViewport() {
-    return this.viewportChecks.some(el => Scroll.inBounds(el));
+  static elementsInViewport() {
+    return elements.some(el => Scroll.inBounds(el));
   }
 }
 

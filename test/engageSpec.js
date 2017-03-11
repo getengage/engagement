@@ -3,7 +3,7 @@ import co from 'co';
 import Nightmare from 'nightmare';
 import engage from '../src/index';
 
-describe('engage (base)', () => {
+describe.only('engage (base)', () => {
   var nightmare;
 
   describe('#run', () => {
@@ -167,7 +167,7 @@ describe('engage (base)', () => {
         console.log('err:', err);
       });
 
-    assert.equal(result.manager.session.source_url, 'http://www.iana.org/domains/reserved');
+    assert.equal(result.manager.session.source_url, 'https://www.iana.org/domains/reserved');
     assert.notEqual(result.manager.session.session_id, session.id);
     assert.equal(result.manager.session.referrer, '');
 
@@ -176,7 +176,7 @@ describe('engage (base)', () => {
 
   it('tracks samedomain session and referrer', co.wrap(function*() {
     var result = yield nightmare
-      .goto('http://www.iana.org/domains')
+      .goto('https://www.iana.org/domains')
       .wait()
       .inject('js', 'dist/engage.min.js')
       .evaluate(() => {
@@ -186,7 +186,7 @@ describe('engage (base)', () => {
         console.log('err:', err);
       });
 
-    assert.equal(result.manager.session.source_url, 'http://www.iana.org/domains');
+    assert.equal(result.manager.session.source_url, 'https://www.iana.org/domains');
     assert.equal(result.manager.session.referrer, '');
     assert(result.manager.session.session_id);
 
@@ -203,9 +203,9 @@ describe('engage (base)', () => {
         console.log('err:', err);
       });
 
-    assert.equal(result.manager.session.source_url, 'http://www.iana.org/numbers');
+    assert.equal(result.manager.session.source_url, 'https://www.iana.org/numbers');
     assert.equal(result.manager.session.session_id, session.id);
-    assert.deepEqual(result.manager.session.referrer, 'http://www.iana.org/domains');
+    assert.deepEqual(result.manager.session.referrer, 'https://www.iana.org/domains');
 
     yield nightmare.end();
   }));

@@ -255,12 +255,12 @@ var engage =
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
+	var elements = void 0;
+	
 	var Scroll = function () {
 	  function Scroll(element) {
 	    _classCallCheck(this, Scroll);
 	
-	    this.word_count = 0;
-	    this.viewportChecks = [];
 	    this.setContentElements(element);
 	    this.update();
 	    this.pubsub = new _utils.PubSub();
@@ -268,23 +268,15 @@ var engage =
 	  }
 	
 	  Scroll.prototype.setContentElements = function setContentElements(element) {
-	    var self = this;
-	    var elements = document.querySelectorAll(element);
-	    if (elements.length === 0) {
-	      throw new Error('No Elements Found');
-	    } else {
-	      Object.keys(elements).forEach(function (key) {
-	        self.word_count += elements[key].innerHTML.replace(/<\/?[^>]+(>|$)/g, '').split(' ').length;
-	        self.viewportChecks.push(elements[key]);
-	      });
-	      self.top = elements[0].getBoundingClientRect().top;
-	      self.bottom = elements[elements.length - 1].getBoundingClientRect().bottom;
-	    }
-	  };
+	    var _this = this;
 	
-	  Scroll.inBounds = function inBounds(el) {
-	    var rect = el.getBoundingClientRect();
-	    return rect.bottom > 0 && rect.right > 0 && rect.left < (window.innerWidth || document.documentElement.clientWidth) && rect.top < (window.innerHeight || document.documentElement.clientHeight);
+	    elements = _utils.$$.find(element);
+	    if (elements.length === 0) throw new Error('No Elements Found');
+	    this.top = elements[0].getBoundingClientRect().top;
+	    this.bottom = elements[elements.length - 1].getBoundingClientRect().bottom;
+	    elements.forEach(function (el) {
+	      _this.word_count = (_this.word_count || 0) + el.innerHTML.replace(/<\/?[^>]+(>|$)/g, '').split(' ').length;
+	    });
 	  };
 	
 	  Scroll.prototype.update = function update() {
@@ -293,11 +285,16 @@ var engage =
 	    this.xPos = _Adapters$scrollCalc[0];
 	    this.yPos = _Adapters$scrollCalc[1];
 	
-	    this.elementInViewport = this.elementsInViewport();
+	    this.elementInViewport = Scroll.elementsInViewport();
 	  };
 	
-	  Scroll.prototype.elementsInViewport = function elementsInViewport() {
-	    return this.viewportChecks.some(function (el) {
+	  Scroll.inBounds = function inBounds(el) {
+	    var rect = el.getBoundingClientRect();
+	    return rect.bottom > 0 && rect.right > 0 && rect.left < (window.innerWidth || document.documentElement.clientWidth) && rect.top < (window.innerHeight || document.documentElement.clientHeight);
+	  };
+	
+	  Scroll.elementsInViewport = function elementsInViewport() {
+	    return elements.some(function (el) {
 	      return Scroll.inBounds(el);
 	    });
 	  };
@@ -344,6 +341,10 @@ var engage =
 	    _classCallCheck(this, $$);
 	  }
 	
+	  $$.find = function find(selector) {
+	    return Array.from(document.querySelectorAll(selector));
+	  };
+	
 	  $$.extend = function extend(obj1, obj2) {
 	    return _extends(Object.create(Object.prototype), obj1, obj2);
 	  };
@@ -363,11 +364,8 @@ var engage =
 	var vchange = void 0;
 	
 	var scrollCalc = function scrollCalc() {
-	  if (typeof window.pageYOffset !== 'undefined') {
-	    return [window.pageXOffset, window.pageYOffset];
-	  } else {
-	    throw new Error('Not Supported');
-	  }
+	  if (typeof window.pageYOffset === 'undefined') throw new Error('Not Supported');
+	  return [window.pageXOffset, window.pageYOffset];
 	};
 	
 	if (typeof document.hidden !== 'undefined') {
