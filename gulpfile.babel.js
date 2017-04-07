@@ -30,7 +30,9 @@ gulp.task('outdated', (callback) => {
     silent: true,
     jsonUpgraded: true,
   }).then((upgraded) => {
-    gutil.log('Hold On. Dependencies need update', upgraded);
+    if (upgraded.length) {
+      gutil.log('Hold On. Dependencies need update', upgraded);
+    }
     callback();
   });
 });

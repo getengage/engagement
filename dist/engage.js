@@ -76,11 +76,11 @@ var engage =
 
 	'use strict';
 	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _metrics = __webpack_require__(3);
-	
-	var _utils = __webpack_require__(7);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -97,18 +97,20 @@ var engage =
 	    if (!instance) {
 	      instance = this;
 	    }
-	    this.options = _utils.$$.extend(defaults, options);
+	    this.options = _extends(defaults, options);
 	    this.manager = new _metrics.Manager(options);
 	    this.emitter();
 	  }
 	
 	  engage.prototype.toJSON = function toJSON() {
-	    var data = _utils.$$.extend({ api_key_id: this.options.api_key }, this.manager.inspect());
+	    var data = _extends({ api_key_id: this.options.api_key }, this.options.dimensions, this.manager.inspect());
 	    return JSON.stringify({ data: data });
 	  };
 	
 	  engage.prototype.format = function format() {
-	    return new window.Blob([this.toJSON()], { type: this.options.content });
+	    return new window.Blob([this.toJSON()], {
+	      type: this.options.content
+	    });
 	  };
 	
 	  engage.prototype.emitter = function emitter() {
@@ -332,8 +334,6 @@ var engage =
 
 	"use strict";
 	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var $$ = function () {
@@ -343,10 +343,6 @@ var engage =
 	
 	  $$.find = function find(selector) {
 	    return Array.from(document.querySelectorAll(selector));
-	  };
-	
-	  $$.extend = function extend(obj1, obj2) {
-	    return _extends(Object.create(Object.prototype), obj1, obj2);
 	  };
 	
 	  return $$;

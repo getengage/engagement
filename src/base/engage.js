@@ -1,5 +1,4 @@
 import { Manager } from '../metrics';
-import { $$ } from '../utils';
 
 let instance = null;
 const defaults = {
@@ -11,18 +10,24 @@ class engage {
 
   constructor(options) {
     if (!instance) { instance = this; }
-    this.options = $$.extend(defaults, options);
+    this.options = Object.assign(defaults, options);
     this.manager = new Manager(options);
     this.emitter();
   }
 
   toJSON() {
-    const data = $$.extend({ api_key_id: this.options.api_key }, this.manager.inspect());
+    const data = Object.assign(
+      { api_key_id: this.options.api_key },
+      this.options.dimensions,
+      this.manager.inspect(),
+    );
     return JSON.stringify({ data });
   }
 
   format() {
-    return new window.Blob([this.toJSON()], { type: this.options.content });
+    return new window.Blob([this.toJSON()], {
+      type: this.options.content,
+    });
   }
 
   emitter() {

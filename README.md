@@ -18,10 +18,31 @@ The Engagement JS Client sends engagement metrics (e.g. time on page, scroll pos
 
 ### How to Use
 
-before the closing body tag of a page, and after engage.js has loaded:
-
 ```javascript
-  engage.run({element: '.text_content', api_key: 'YOUR_API_KEY'});
+
+  engageConfig = {
+    element: '.text_content',
+    api_key: 'YOUR_API_KEY',
+    dimensions: {   // optional
+      tags: ['sports', 'commentary', 'statistics'],
+      author: 'john doe',
+    },
+  };
+  
+  (function() {
+    var e = document.createElement('script');
+    e.src = 'https://cdn.rawgit.com/nicksoto/engagement/3e3a6705/dist/engage.min.js';
+    e.type = 'text/javascript';
+    e.async = 'true';
+    e.onload = e.onreadystatechange = function() {
+      var rs = this.readyState;
+      if (rs && rs != 'complete' && rs != 'loaded') return;
+      try { engage.run(engageConfig) } catch (e) {}
+    };
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(e, s);
+  })();
+
 ```
 
 ### Contributing / Setup

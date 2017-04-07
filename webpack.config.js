@@ -24,10 +24,6 @@ module.exports = {
     ]
   },
   plugins: [
-    // Avoid publishing files when compilation fails
-    new webpack.NoErrorsPlugin(),
-    // dedupe
-    new webpack.optimize.DedupePlugin(),
     // uncompressed & compressed files
     new webpack.optimize.UglifyJsPlugin({
       include: /\.min\.js$/,
