@@ -22,7 +22,9 @@ class Scroll {
   }
 
   update() {
-    [this.xPos, this.yPos] = Adapters.scrollCalc();
+    const newCalc = Adapters.scrollCalc();
+    this.xPos = newCalc[0];
+    this.yPos = newCalc[1];
     this.elementInViewport = Scroll.elementsInViewport();
   }
 
