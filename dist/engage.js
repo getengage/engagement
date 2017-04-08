@@ -45,7 +45,11 @@ var engage =
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 	
 	var _base = __webpack_require__(1);
 	
@@ -54,7 +58,9 @@ var engage =
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	window.engage = _base2.default;
-	module.exports = _base2.default;
+	global.engage = _base2.default;
+	exports.default = _base2.default;
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
 /* 1 */
@@ -62,13 +68,17 @@ var engage =
 
 	'use strict';
 	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
 	var _engage = __webpack_require__(2);
 	
 	var _engage2 = _interopRequireDefault(_engage);
-	
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	module.exports = _engage2.default;
+
+	exports.default = _engage2.default;
 
 /***/ },
 /* 2 */
@@ -76,11 +86,19 @@ var engage =
 
 	'use strict';
 	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _metrics = __webpack_require__(3);
+	
+	var _metrics2 = _interopRequireDefault(_metrics);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -98,7 +116,7 @@ var engage =
 	      instance = this;
 	    }
 	    this.options = _extends(defaults, options);
-	    this.manager = new _metrics.Manager(options);
+	    this.manager = new _metrics2.default(options);
 	    this.emitter();
 	  }
 	
@@ -152,7 +170,7 @@ var engage =
 	  return engage;
 	}();
 	
-	module.exports = engage;
+	exports.default = engage;
 
 /***/ },
 /* 3 */
@@ -160,19 +178,27 @@ var engage =
 
 	'use strict';
 	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
 	var _Manager = __webpack_require__(4);
 	
 	var _Manager2 = _interopRequireDefault(_Manager);
-	
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	module.exports = { Manager: _Manager2.default };
+
+	exports.default = _Manager2.default;
 
 /***/ },
 /* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 	
 	var _tracking = __webpack_require__(5);
 	
@@ -223,13 +249,18 @@ var engage =
 	  return Manager;
 	}();
 	
-	module.exports = Manager;
+	exports.default = Manager;
 
 /***/ },
 /* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.Session = exports.Visibility = exports.Scroll = undefined;
 	
 	var _Scroll = __webpack_require__(6);
 	
@@ -245,13 +276,19 @@ var engage =
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	module.exports = { Scroll: _Scroll2.default, Visibility: _Visibility2.default, Session: _Session2.default };
+	exports.Scroll = _Scroll2.default;
+	exports.Visibility = _Visibility2.default;
+	exports.Session = _Session2.default;
 
 /***/ },
 /* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 	
 	var _utils = __webpack_require__(7);
 	
@@ -304,13 +341,18 @@ var engage =
 	  return Scroll;
 	}();
 	
-	module.exports = Scroll;
+	exports.default = Scroll;
 
 /***/ },
 /* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.PubSub = exports.Adapters = exports.$$ = undefined;
 	
 	var _Utils = __webpack_require__(8);
 	
@@ -326,13 +368,19 @@ var engage =
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	module.exports = { $$: _Utils2.default, Adapters: _Adapters2.default, PubSub: _PubSub2.default };
+	exports.$$ = _Utils2.default;
+	exports.Adapters = _Adapters2.default;
+	exports.PubSub = _PubSub2.default;
 
 /***/ },
 /* 8 */
 /***/ function(module, exports) {
 
 	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -348,7 +396,7 @@ var engage =
 	  return $$;
 	}();
 	
-	module.exports = $$;
+	exports.default = $$;
 
 /***/ },
 /* 9 */
@@ -356,36 +404,42 @@ var engage =
 
 	'use strict';
 	
-	var vhidden = void 0;
-	var vchange = void 0;
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var Adapters = {};
 	
-	var scrollCalc = function scrollCalc() {
+	Adapters.scrollCalc = function () {
 	  if (typeof window.pageYOffset === 'undefined') throw new Error('Not Supported');
 	  return [window.pageXOffset, window.pageYOffset];
 	};
 	
 	if (typeof document.hidden !== 'undefined') {
 	  // Opera 12.10 and Firefox 18 and later support
-	  vhidden = 'hidden';
-	  vchange = 'visibilitychange';
+	  Adapters.vhidden = 'hidden';
+	  Adapters.vchange = 'visibilitychange';
 	} else if (typeof document.mozHidden !== 'undefined') {
-	  vhidden = 'mozHidden';
-	  vchange = 'mozvisibilitychange';
+	  Adapters.vhidden = 'mozHidden';
+	  Adapters.vchange = 'mozvisibilitychange';
 	} else if (typeof document.msHidden !== 'undefined') {
-	  vhidden = 'msHidden';
-	  vchange = 'msvisibilitychange';
+	  Adapters.vhidden = 'msHidden';
+	  Adapters.vchange = 'msvisibilitychange';
 	} else if (typeof document.webkitHidden !== 'undefined') {
-	  vhidden = 'webkitHidden';
-	  vchange = 'webkitvisibilitychange';
+	  Adapters.vhidden = 'webkitHidden';
+	  Adapters.vchange = 'webkitvisibilitychange';
 	}
 	
-	module.exports = { vhidden: vhidden, vchange: vchange, scrollCalc: scrollCalc };
+	exports.default = Adapters;
 
 /***/ },
 /* 10 */
 /***/ function(module, exports) {
 
 	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -415,13 +469,17 @@ var engage =
 	  return PubSub;
 	}();
 	
-	module.exports = PubSub;
+	exports.default = PubSub;
 
 /***/ },
 /* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 	
 	var _utils = __webpack_require__(7);
 	
@@ -443,13 +501,17 @@ var engage =
 	  return Visibility;
 	}();
 	
-	module.exports = Visibility;
+	exports.default = Visibility;
 
 /***/ },
 /* 12 */
 /***/ function(module, exports) {
 
 	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -484,7 +546,7 @@ var engage =
 	  return Session;
 	}();
 	
-	module.exports = Session;
+	exports.default = Session;
 
 /***/ }
 /******/ ]);

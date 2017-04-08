@@ -1,4 +1,4 @@
-import { Manager } from '../metrics';
+import Manager from '../metrics';
 
 let instance = null;
 const defaults = {
@@ -53,4 +53,4 @@ class engage {
   }
 }
 
-module.exports = engage;
+export default engage;

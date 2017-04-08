@@ -1,5 +1,5 @@
 import assert from 'assert';
-import { Manager } from '../src/metrics';
+import Manager from '../src/metrics';
 
 describe('Manager', () => {
   var instance;

@@ -1,23 +1,22 @@
-let vhidden;
-let vchange;
+const Adapters = {};
 
-const scrollCalc = () => {
+Adapters.scrollCalc = () => {
   if (typeof window.pageYOffset === 'undefined') throw new Error('Not Supported');
   return [window.pageXOffset, window.pageYOffset];
 };
 
 if (typeof document.hidden !== 'undefined') { // Opera 12.10 and Firefox 18 and later support
-  vhidden = 'hidden';
-  vchange = 'visibilitychange';
+  Adapters.vhidden = 'hidden';
+  Adapters.vchange = 'visibilitychange';
 } else if (typeof document.mozHidden !== 'undefined') {
-  vhidden = 'mozHidden';
-  vchange = 'mozvisibilitychange';
+  Adapters.vhidden = 'mozHidden';
+  Adapters.vchange = 'mozvisibilitychange';
 } else if (typeof document.msHidden !== 'undefined') {
-  vhidden = 'msHidden';
-  vchange = 'msvisibilitychange';
+  Adapters.vhidden = 'msHidden';
+  Adapters.vchange = 'msvisibilitychange';
 } else if (typeof document.webkitHidden !== 'undefined') {
-  vhidden = 'webkitHidden';
-  vchange = 'webkitvisibilitychange';
+  Adapters.vhidden = 'webkitHidden';
+  Adapters.vchange = 'webkitvisibilitychange';
 }
 
-module.exports = { vhidden, vchange, scrollCalc };
+export default Adapters;

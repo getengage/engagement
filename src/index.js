@@ -1,4 +1,5 @@
 import engage from './base';
 
 window.engage = engage;
-module.exports = engage;
+global.engage = engage;
+export default engage;

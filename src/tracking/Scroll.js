@@ -39,4 +39,4 @@ class Scroll {
   }
 }
 
-module.exports = Scroll;
+export default Scroll;
