@@ -9,6 +9,12 @@ import gutil from 'gulp-util';
 import packageJSON from './package.json';
 import ncu from 'npm-check-updates';
 
+// rollup
+import { rollup } from 'rollup';
+import uglify from 'rollup-plugin-uglify';
+import resolve from 'rollup-plugin-node-resolve';
+import babel from 'rollup-plugin-babel';
+
 // webpack
 import webpack from 'webpack-stream';
 import webpackConfig from './webpack.config.js';
@@ -43,11 +49,32 @@ gulp.task('clean', (callback) => {
 });
 
 // Compiles, minifies scripts and generates sourcemaps.
-gulp.task('compile', () => {
-  gulp.src(glob)
-    .pipe(plumber())
-    .pipe(webpack(webpackConfig))
-    .pipe(gulp.dest(destinationDirectory))
+gulp.task('compile', (callback) => {
+  rollup({
+    entry: `${sourceDirectory}/index.js`,
+    plugins: [
+      resolve({
+        jsnext: true,
+        main: true,
+      }),
+      babel({
+        babelrc: false,
+        exclude: 'node_modules/**',
+        presets: [
+          ['es2015', {"modules": false}]
+        ],
+        plugins: ['external-helpers'],
+      })
+    ]
+  })
+  .then((bundle) => {
+    bundle.write({
+      moduleName: 'engage',
+      format: 'iife',
+      dest: `${destinationDirectory}/engage.min.js`,  // need multiple dests
+    });
+    callback();
+  });
 });
 
 // Watches for changes.
