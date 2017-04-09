@@ -1,5 +1,5 @@
-import Manager from '../metrics';
 import * as Beacon from 'navigator.sendbeacon';
+import Manager from '../metrics';
 
 let instance = null;
 const defaults = {
