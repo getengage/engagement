@@ -72,7 +72,7 @@ describe('engage (base)', () => {
     var result = yield nightmare
       .goto('http://example.com')
       .wait()
-      .inject('js', 'dist/engage.min.js')
+      .inject('js', 'dist/engage.js')
       .evaluate(() => {
         return window.engage.run({element: '.body_copy', api_key: '1234'});
       })
@@ -87,7 +87,7 @@ describe('engage (base)', () => {
     var result = yield nightmare
       .goto('http://example.com')
       .wait()
-      .inject('js', 'dist/engage.min.js')
+      .inject('js', 'dist/engage.js')
       .evaluate(() => {
         return window.engage.run({element: 'div', api_key: '1234'});
       });
@@ -102,7 +102,7 @@ describe('engage (base)', () => {
       .goto('http://yahoo.com')
       .viewport(600, 600)
       .wait()
-      .inject('js', 'dist/engage.min.js')
+      .inject('js', 'dist/engage.js')
       .evaluate(() => {
         window.engage.run({element: '.header', api_key: '1234'});
       });
@@ -123,7 +123,7 @@ describe('engage (base)', () => {
       .goto('http://example.com')
       .viewport(1200, 1200)
       .wait()
-      .inject('js', 'dist/engage.min.js')
+      .inject('js', 'dist/engage.js')
       .evaluate(() => {
         return window.engage.run({element: 'div', api_key: '1234'});
       });
@@ -144,7 +144,7 @@ describe('engage (base)', () => {
     var result = yield nightmare
       .goto('https://www.example.com')
       .wait()
-      .inject('js', 'dist/engage.min.js')
+      .inject('js', 'dist/engage.js')
       .evaluate(() => {
         return window.engage.run({element: 'div', api_key: '1234'});
       })
@@ -159,7 +159,7 @@ describe('engage (base)', () => {
     var result = yield nightmare
       .click('a[href="http://www.iana.org/domains/example"]')
       .wait()
-      .inject('js', 'dist/engage.min.js')
+      .inject('js', 'dist/engage.js')
       .evaluate(() => {
         return window.engage.run({element: '#body', api_key: '1234'});
       })
@@ -178,7 +178,7 @@ describe('engage (base)', () => {
     var result = yield nightmare
       .goto('https://www.iana.org/domains')
       .wait()
-      .inject('js', 'dist/engage.min.js')
+      .inject('js', 'dist/engage.js')
       .evaluate(() => {
         return window.engage.run({element: '#body', api_key: '1234'});
       })
@@ -195,7 +195,7 @@ describe('engage (base)', () => {
     var result = yield nightmare
       .click('a[href="/numbers"]')
       .wait()
-      .inject('js', 'dist/engage.min.js')
+      .inject('js', 'dist/engage.js')
       .evaluate(() => {
         return window.engage.run({element: '#body', api_key: '1234'});
       })

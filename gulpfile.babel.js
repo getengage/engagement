@@ -15,10 +15,6 @@ import sourcemaps from 'gulp-sourcemaps';
 import resolve from 'rollup-plugin-node-resolve';
 import babel from 'rollup-plugin-babel';
 
-// webpack
-import webpack from 'webpack-stream';
-import webpackConfig from './webpack.config.js';
-
 // Configurations.
 const sourceDirectory = packageJSON.directories.src;
 const destinationDirectory = packageJSON.directories.compiled;
