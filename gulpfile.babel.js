@@ -14,6 +14,7 @@ import rollup from 'gulp-better-rollup';
 import sourcemaps from 'gulp-sourcemaps';
 import resolve from 'rollup-plugin-node-resolve';
 import babel from 'rollup-plugin-babel';
+import commonjs from 'rollup-plugin-commonjs';
 
 // Configurations.
 const sourceDirectory = packageJSON.directories.src;
@@ -42,7 +43,7 @@ gulp.task('outdated', (callback) => {
 
 // Cleans the dist directory.
 gulp.task('clean', (callback) => {
-  del([destinationDirectory]).then(() => { callback(); });
+  del([destinationDirectory]).then(() => callback() );
 });
 
 // Compiles, minifies scripts and generates sourcemaps.
@@ -55,6 +56,9 @@ gulp.task('compile', (callback) => {
           resolve({
             jsnext: true,
             main: true,
+          }),
+          commonjs({
+            include: 'node_modules/**',
           }),
           babel({
             babelrc: false,
@@ -71,7 +75,7 @@ gulp.task('compile', (callback) => {
       format: 'iife',
     }))
     .pipe(sourcemaps.write(''))
-    .pipe(gulp.dest(destinationDirectory))
+    .pipe(gulp.dest(destinationDirectory));
 });
 
 // Watches for changes.

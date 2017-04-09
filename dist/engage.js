@@ -259,6 +259,61 @@ var Manager$1 = function () {
   return Manager;
 }();
 
+var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+
+
+
+
+
+function createCommonjsModule(fn, module) {
+	return module = { exports: {} }, fn(module, module.exports), module.exports;
+}
+
+var sendbeacon = createCommonjsModule(function (module, exports) {
+(function(root) {
+  'use strict';
+
+  function sendBeacon(url, data, _settings) {
+    var xhr = ('XMLHttpRequest' in window) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    xhr.open('POST', url, false);
+    xhr.withCredentials = true;
+    xhr.setRequestHeader('Accept', '*/*');
+    if (typeof data === 'string') {
+      xhr.setRequestHeader('Content-Type', 'text/plain;charset=UTF-8');
+      xhr.responseType = 'text/plain';
+    } else if (Object.prototype.toString.call(data) === '[object Blob]') {
+      if (data.type) {
+        xhr.setRequestHeader('Content-Type', data.type);
+      }
+    }
+
+    if (typeof _settings === 'object') {
+      if (!isNaN(_settings.timeout)) {
+        // xhr.timeout doesn't work for synchronous requests
+        setTimeout(function() {
+          if (xhr.readyState !== 4) {
+            xhr.abort();
+          }
+        }, _settings.timeout);
+        
+      }
+    }
+
+    xhr.send(data);
+    return true;
+  }
+
+  {
+    if ('object' !== 'undefined' && module.exports) {
+      exports = module.exports = sendBeacon;
+    }
+    exports.sendBeacon = sendBeacon;
+  }
+})(commonjsGlobal);
+});
+
+var sendbeacon_1 = sendbeacon.sendBeacon;
+
 var instance = null;
 var defaults$$1 = {
   content: 'application/vnd.engage.api+json; charset=UTF-8',
@@ -296,7 +351,7 @@ var engage$2 = function () {
       var _this = this;
 
       setInterval(function () {
-        window.navigator.sendBeacon(_this.options.url, _this.format());
+        sendbeacon_1(_this.options.url, _this.format());
       }, 2000);
     }
   }], [{

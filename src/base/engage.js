@@ -1,4 +1,5 @@
 import Manager from '../metrics';
+import * as Beacon from 'navigator.sendbeacon';
 
 let instance = null;
 const defaults = {
@@ -32,7 +33,7 @@ class engage {
 
   emitter() {
     setInterval(() => {
-      window.navigator.sendBeacon(this.options.url, this.format());
+      Beacon.sendBeacon(this.options.url, this.format());
     }, 2000);
   }
 
