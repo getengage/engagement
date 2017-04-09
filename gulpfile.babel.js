@@ -9,21 +9,24 @@ import gutil from 'gulp-util';
 import packageJSON from './package.json';
 import ncu from 'npm-check-updates';
 
-// webpack
-import webpack from 'webpack-stream';
-import webpackConfig from './webpack.config.js';
+// rollup
+import rollup from 'gulp-better-rollup';
+import sourcemaps from 'gulp-sourcemaps';
+import resolve from 'rollup-plugin-node-resolve';
+import babel from 'rollup-plugin-babel';
 
 // Configurations.
 const sourceDirectory = packageJSON.directories.src;
 const destinationDirectory = packageJSON.directories.compiled;
 const glob = `${sourceDirectory}/**/*.js`;
 
-// Checks for outdated packages, cleans the distribution directory,
+// sequence for outdated packages, cleans the distribution directory,
 // watches for file changes and compiles the scripts.
 gulp.task('default', (callback) => {
   sequence('outdated', 'clean', 'compile', 'watch', callback);
 });
 
+// check on outdated npm packages
 gulp.task('outdated', (callback) => {
   ncu.run({
     packageFile: './package.json',
@@ -43,10 +46,31 @@ gulp.task('clean', (callback) => {
 });
 
 // Compiles, minifies scripts and generates sourcemaps.
-gulp.task('compile', () => {
-  gulp.src(glob)
-    .pipe(plumber())
-    .pipe(webpack(webpackConfig))
+gulp.task('compile', (callback) => {
+  gulp.src(`${sourceDirectory}/index.js`)
+    .pipe(sourcemaps.init())
+    .pipe(
+      rollup({
+        plugins: [
+          resolve({
+            jsnext: true,
+            main: true,
+          }),
+          babel({
+            babelrc: false,
+            exclude: 'node_modules/**',
+            presets: [
+              ['es2015', {"modules": false}]
+            ],
+            plugins: ['external-helpers', 'transform-object-assign'],
+          })
+        ]
+      }, {
+      dest: `${destinationDirectory}/engage.js`,
+      moduleName: `engage`,
+      format: 'iife',
+    }))
+    .pipe(sourcemaps.write(''))
     .pipe(gulp.dest(destinationDirectory))
 });
 
