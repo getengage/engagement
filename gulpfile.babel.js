@@ -15,6 +15,7 @@ import sourcemaps from 'gulp-sourcemaps';
 import resolve from 'rollup-plugin-node-resolve';
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
+import uglify from 'rollup-plugin-uglify';
 
 // Configurations.
 const sourceDirectory = packageJSON.directories.src;
@@ -67,11 +68,17 @@ gulp.task('compile', (callback) => {
               ['es2015', {"modules": false}]
             ],
             plugins: ['external-helpers', 'transform-object-assign'],
+          }),
+          uglify({
+            output: {
+              beautify: true,
+            },
+            mangle: true,
           })
         ]
       }, {
       dest: `${destinationDirectory}/engage.js`,
-      moduleName: `engage`,
+      moduleName: 'engage',
       format: 'iife',
     }))
     .pipe(sourcemaps.write(''))
